@@ -1,31 +1,18 @@
 // 包含所有的 action creator
 import {
-    TRANSFORM_CURRENT_PAGE,
-    TRANSFORM_TYPE,
     USER_DATA,
     REMOVE_USER_DATA
-} from '../redux/action-types';
+} from './action-types';
 
-// 传递给LayoutContent改变的page
-export const transfrom_currentPage = (currentPage) => ({
-    type: TRANSFORM_CURRENT_PAGE,
-    data: currentPage
-})
-
-// 传递给LayoutContent改变的type
-export const transfrom_type = (typeIndex) => ({
-    type: TRANSFORM_TYPE,
-    data: typeIndex
-})
-
+// TODO: 需修改
 // 从register里传递已登录的用户数据到其余各个组件
-export const transform_user = (user)=>({
+export const transform_user = (user: any)=>({
     type: USER_DATA,
     data: user
 }) 
 
 // 退出登录，删去redux的数据
-export const remove_user = (user)=>({
+export const remove_user = (user: any)=>({
     type: REMOVE_USER_DATA,
     data: user
 }) 
