@@ -1,0 +1,16 @@
+$file-prefix: 'home-verifyDetail';
+
+.#{$file-prefix}-content {
+    margin-top: 20px;
+    color: #ccc;
+}
+
+.#{$file-prefix}-image-layout {
+    display: flex;
+    flex-wrap: wrap;
+
+    .#{$file-prefix}-image {
+        width: 30%;
+        height: 150px;
+    }
+}

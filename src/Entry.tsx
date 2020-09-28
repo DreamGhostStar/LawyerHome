@@ -23,7 +23,7 @@ export default class Entry extends Component {
             <Provider store={store}>
                 <HashRouter>
                     <Switch>
-                        <Route path='/home' component={homePage} />
+                        <Route path='/' component={homePage} />
                         <Provider store={store}>
                             <Route path='/login' component={loginPage} />
                         </Provider>

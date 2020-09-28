@@ -34,7 +34,7 @@ export default function Header({ transform_user, user }: HeaderConfig) {
     const [userData, setUserData] = useState<null | UserBasicConfig>(null)
     const getBasicUser = async () => {
         const token: string = getToken()
-        if (token) {
+        if (token && !store.getState().user) {
             const res = await getBasicUserApi({});
             const userData: UserBasicConfig = res.data
             transform_user(userData)

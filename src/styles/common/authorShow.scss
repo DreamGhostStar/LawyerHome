@@ -1,0 +1,30 @@
+$file-prefix: 'common-author';
+
+.#{$file-prefix}-author-layout {
+    display: flex;
+    justify-content: flex-start;
+
+    .#{$file-prefix}-author-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+
+        .#{$file-prefix}-realname {
+            font-weight: bold;
+            font-size: 18px;
+            margin: 0px;
+        }
+
+        .#{$file-prefix}-createTime {
+            color: #ccc;
+            margin: 0px;
+        }
+    }
+
+    .#{$file-prefix}-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-right: 20px;
+    }
+}

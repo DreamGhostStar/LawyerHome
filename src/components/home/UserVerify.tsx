@@ -3,6 +3,8 @@ import 'styles/home/userVerify.scss'
 import { getUserVerifyListApi } from 'http/UserApi'
 import { AuthorConfig, errorToast } from 'components/common/utils'
 import Loading2 from 'components/common/Loading2'
+import UserVerifyDetail from './UserVerifyDetail'
+import AuthorShow from 'components/common/AuthorShow'
 
 const stylePrefix = 'home-userverify'
 
@@ -17,6 +19,8 @@ interface UserVerifyItemConfig {
 export default function UserVerify() {
     const [loading, setLoading] = useState(false)
     const [userVerifyList, setUserVerifyList] = useState<UserVerifyItemConfig[]>([])
+    const [visible, setVisible] = useState(false)
+    const [verifyID, setVerifyID] = useState<null | number>(null)
 
     const getUserVerifyList = async () => {
         setLoading(true)
@@ -28,6 +32,10 @@ export default function UserVerify() {
         }
 
         setLoading(false)
+    }
+    const openModal = (id: number) => {
+        setVisible(true)
+        setVerifyID(id)
     }
     useEffect(() => {
         getUserVerifyList()
@@ -41,21 +49,24 @@ export default function UserVerify() {
                         return <div
                             key={index}
                             className={`${stylePrefix}-user-verify-item`}
+                            onClick={() => openModal(userVerifyItem.id)}
                         >
                             <div className={`${stylePrefix}-user-verify-item-main`}>
-                                <div className={`${stylePrefix}-author-layout`} >
-                                    <img src={userVerifyItem.author.avatar} alt="头像" className={`${stylePrefix}-avatar`} />
-                                    <div className={`${stylePrefix}-author-info`} >
-                                        <p className={`${stylePrefix}-realname`} >{userVerifyItem.author.realname}</p>
-                                        <p className={`${stylePrefix}-createTime`} >{userVerifyItem.createTime}</p>
-                                    </div>
-                                </div>
+                                <AuthorShow
+                                    avatar={userVerifyItem.author.avatar}
+                                    realname={userVerifyItem.author.realname}
+                                    createTime={userVerifyItem.createTime}
+                                />
                                 <p className={`${stylePrefix}-abstract`}>{userVerifyItem.abstract}</p>
                             </div>
-                            <img src={userVerifyItem.firstPicture} alt="图片" className={`${stylePrefix}-picture`} />
+                            {
+                                userVerifyItem.firstPicture &&
+                                <img src={userVerifyItem.firstPicture} alt="图片" className={`${stylePrefix}-picture`} />
+                            }
                         </div>
                     })
             }
+            <UserVerifyDetail visible={visible} setVisible={setVisible} verifyID={verifyID} />
         </div>
     )
 }
