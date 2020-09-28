@@ -5,13 +5,14 @@ import store from 'redux/store'
 import HeaderContainer from 'containers/HeaderContainer'
 import Sider from 'components/home/Sider'
 import UserVerify from 'components/home/UserVerify'
+import UserList from 'components/home/UserList'
 
 const stylePrefix = 'page-home'
 
 export default function Home() {
     const [activeSiderIndex, setActiveSiderIndex] = useState(0)
     const mainPageMap = new Map();
-    mainPageMap.set(0, <UserVerify />)
+    mainPageMap.set(0, <UserList />)
     mainPageMap.set(1, <UserVerify />)
     return (
         <div className={`${stylePrefix}-layout`}>

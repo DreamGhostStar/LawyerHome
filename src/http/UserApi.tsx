@@ -43,3 +43,14 @@ export const getUserVerifyListApi = async () => {
 
     return res
 }
+
+// 获取所有身份
+export const getIdentifyListApi = async () => {
+    const { data: res }: { data: httpConfig } = await axios({
+        method: 'GET',
+        url: '/api/user/identify',
+        headers: getHeaders()
+    })
+
+    return res
+}

@@ -6,5 +6,9 @@
     {
         "icon": "icon-shenhe",
         "title": "用户审核"
+    },
+    {
+        "icon": "icon-wrong",
+        "title": "错误上报"
     }
 ]
