@@ -1,14 +1,22 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import 'styles/pages/login.scss'
-import { successToast, errorToast, setToken } from 'components/common/utils'
-import { loginApi } from 'http/UserApi';
+import { successToast, errorToast, setToken, getToken } from 'components/common/utils'
+import { loginApi, getBasicUserApi } from 'http/UserApi';
 import md5 from 'md5'
 import { useHistory } from 'react-router-dom';
 import { Checkbox, Button } from 'antd';
+import { UserBasicConfig } from 'components/home/Header';
 
 const stylePrefix = 'page-login'
 
-export default function Login() {
+interface LoginConfig {
+    transform_user: (user: UserBasicConfig) => {
+        type: string;
+        data: UserBasicConfig;
+    }
+}
+
+export default function Login({ transform_user }: LoginConfig) {
     const [isAgreeDocument, setIsAgreeDocument] = useState(false)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -26,6 +34,20 @@ export default function Login() {
             errorToast(res.message);
         }
     }
+    const getUserInfo = async () => {
+        const token: string = getToken();
+        if (token) {
+            const res = await getBasicUserApi({});
+            if (res.code === 0) {
+                const userData: UserBasicConfig = res.data
+                transform_user(userData)
+                history.push('/home')
+            }
+        }
+    }
+    useEffect(() => {
+        getUserInfo()
+    }, [])
     return (
         <div className={`${stylePrefix}-layout`}>
             <div className={`${stylePrefix}-main-layout`}>

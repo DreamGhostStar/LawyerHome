@@ -3,7 +3,7 @@ import { message } from 'antd';
 import cookies from 'react-cookies'
 
 export const IconFont = createFromIconfontCN({
-    scriptUrl: 'http://at.alicdn.com/t/font_2103484_igasga44gb.js',
+    scriptUrl: 'http://at.alicdn.com/t/font_2103484_9mvmwf7m6m.js',
 });
 
 export interface httpConfig {
@@ -35,4 +35,10 @@ export const getHeaders = () => {
     return {
         'Authorization': token
     }
+}
+
+export interface AuthorConfig {
+    id: number, // 作者ID
+    avatar: string, // 作者的头像
+    realname: string, // 作者的真实姓名
 }

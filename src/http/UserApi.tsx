@@ -32,3 +32,14 @@ export const getBasicUserApi = async (data: getBasicUserConfig) => {
 
     return res
 }
+
+// 获取用户验证列表
+export const getUserVerifyListApi = async () => {
+    const { data: res }: { data: httpConfig } = await axios({
+        method: 'GET',
+        url: '/api/user/verify/list',
+        headers: getHeaders()
+    })
+
+    return res
+}

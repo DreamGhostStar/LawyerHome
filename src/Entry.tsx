@@ -9,7 +9,7 @@ import store from './redux/store'
 // 异步分包处理
 
 const loginPage = Loadable({
-    loader: () => import('./pages/Login'),
+    loader: () => import('./containers/LoginContainer'),
 });
 
 const homePage = Loadable({
@@ -24,7 +24,9 @@ export default class Entry extends Component {
                 <HashRouter>
                     <Switch>
                         <Route path='/home' component={homePage} />
-                        <Route path='/login' component={loginPage} />
+                        <Provider store={store}>
+                            <Route path='/login' component={loginPage} />
+                        </Provider>
                         <Redirect to='/login' />
                     </Switch>
                 </HashRouter>
