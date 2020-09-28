@@ -1,3 +1,54 @@
 $file-prefix: 'home-header';
 
-.#{$file-prefix}-layout {}
+.#{$file-prefix}-layout {
+    height: 60px;
+    background-color: rgba($color: #000000, $alpha: 0.7);
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+
+    .#{$file-prefix}-logo-layout {
+        display: flex;
+        justify-content: flex-start;
+
+        .#{$file-prefix}-logo {
+            width: 50px;
+            height: 50px;
+            transform: scale(1.5);
+            position: relative;
+            top: 5px;
+            margin-right: 5px;
+        }
+
+        .#{$file-prefix}-logo-word {
+            color: #fff;
+            line-height: 60px;
+            font-size: 20px;
+        }
+    }
+
+    .#{$file-prefix}-user-layout {
+        display: flex;
+        justify-content: flex-start;
+        padding: 0 10px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #eeeeee;
+        }
+
+        .#{$file-prefix}-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-top: 5px;
+            margin-right: 20px;
+        }
+
+        .#{$file-prefix}-icon {
+            color: #fff;
+            font-size: 20px;
+            margin-top: 20px;
+        }
+    }
+}

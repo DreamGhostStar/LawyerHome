@@ -3,16 +3,17 @@ import {
     USER_DATA,
     REMOVE_USER_DATA
 } from './action-types';
+import { UserBasicConfig } from 'components/home/Header';
 
 // TODO: 需修改
 // 从register里传递已登录的用户数据到其余各个组件
-export const transform_user = (user: any)=>({
+export const transform_user = (user: UserBasicConfig)=>({
     type: USER_DATA,
     data: user
 }) 
 
 // 退出登录，删去redux的数据
-export const remove_user = (user: any)=>({
+export const remove_user = (user: UserBasicConfig)=>({
     type: REMOVE_USER_DATA,
     data: user
 }) 

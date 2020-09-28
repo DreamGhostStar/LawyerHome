@@ -3,8 +3,15 @@ import {
     USER_DATA,
     REMOVE_USER_DATA
 } from './action-types'
+import { UserBasicConfig } from 'components/home/Header'
 
-export function transfromData(state = { user: null }, action: any) {
+export function transfromData(
+    state: { user: UserBasicConfig | null } = { user: null },
+    action: {
+        data: UserBasicConfig
+        type: string
+    }
+) {
     let temp = state
     switch (action.type) {
         case USER_DATA:

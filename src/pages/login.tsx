@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import 'styles/pages/login.scss'
-import { successToast, errorToast } from 'components/common/utils'
+import { successToast, errorToast, setToken } from 'components/common/utils'
 import { loginApi } from 'http/UserApi';
 import md5 from 'md5'
 import { useHistory } from 'react-router-dom';
@@ -20,6 +20,7 @@ export default function Login() {
         })
         if (res.code === 0) {
             history.push('/home')
+            setToken(res.data)
             successToast('登录成功')
         } else {
             errorToast(res.message);

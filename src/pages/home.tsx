@@ -1,13 +1,17 @@
 import React from 'react'
 import 'styles/pages/home.scss'
-import Header from 'components/home/Header'
+import { Provider } from 'react-redux'
+import store from 'redux/store'
+import HeaderContainer from 'containers/HeaderContainer'
 
 const stylePrefix = 'page-home'
 
 export default function Home() {
     return (
         <div>
-            <Header />
+            <Provider store={store}>
+                <HeaderContainer />
+            </Provider>
         </div>
     )
 }
