@@ -14,6 +14,10 @@ interface getVerifyDetailConfig {
     id: number
 }
 
+interface getUserListConfig {
+    page: number
+}
+
 // 登录
 export const loginApi = async (data: loginConfig) => {
     const { data: res }: { data: httpConfig } = await axios({
@@ -64,6 +68,18 @@ export const getUserVerifyDetailApi = async (data: getVerifyDetailConfig) => {
     const { data: res }: { data: httpConfig } = await axios({
         method: 'GET',
         url: '/api/user/verify',
+        params: data,
+        headers: getHeaders()
+    })
+
+    return res
+}
+
+// 获取用户列表信息
+export const getUserListApi = async (data: getUserListConfig) => {
+    const { data: res }: { data: httpConfig } = await axios({
+        method: 'GET',
+        url: '/api/admin/user/list',
         params: data,
         headers: getHeaders()
     })

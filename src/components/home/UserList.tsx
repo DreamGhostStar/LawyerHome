@@ -3,7 +3,7 @@ import 'styles/home/userList.scss'
 import { Table, Button, Select, Space } from 'antd';
 import userListModel from 'model/userList.json'
 import { AuthorConfig, IndentifyConfig, errorToast, successToast } from 'components/common/utils';
-import { getIdentifyListApi } from 'http/UserApi';
+import { getIdentifyListApi, getUserListApi } from 'http/UserApi';
 import { TablePaginationConfig } from 'antd/lib/table';
 import AlterUserInfoModal from './AlterUserInfoModal';
 
@@ -104,17 +104,22 @@ export default function UserList() {
     ];
     const getUserList = async () => {
         setLoading(true)
-        setTimeout(() => {
-            const userListTemp = userListModel.list.map((userItem, index) => {
-                return {
-                    ...userItem,
-                    key: index.toString()
-                }
-            })
-            setPageNum(userListModel.page)
-            setUserList(userListTemp)
-            setLoading(false)
-        }, 2000);
+        // const res = await getUserListApi({
+        //     page: current
+        // })
+        // if (res.code === 0) {
+        const userListTemp = userListModel.list.map((userItem, index) => {
+            return {
+                ...userItem,
+                key: index.toString()
+            }
+        })
+        setPageNum(userListModel.page)
+        setUserList(userListTemp)
+        setLoading(false)
+        // } else {
+        //     errorToast(res.message)
+        // }
     }
     const getIdentifyList = async () => {
         const res = await getIdentifyListApi();
