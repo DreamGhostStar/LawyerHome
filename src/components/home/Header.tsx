@@ -33,15 +33,16 @@ interface HeaderConfig {
 
 export default function Header({ transform_user, user }: HeaderConfig) {
     const history = useHistory()
-    const [userData, setUserData] = useState<null | UserBasicConfig>(null)
+    const [avatar, setAvatar] = useState('')
     const [isMouse, setIsMouse] = useState(false)
     const getBasicUser = async () => {
         const token: string = getToken()
         if (token && !store.getState().user) {
             const res = await getBasicUserApi({});
-            const userData: UserBasicConfig = res.data
-            transform_user(userData)
-            setUserData(user.user)
+            const tempUserData: UserBasicConfig = res.data
+            console.log(tempUserData.avatar);
+            setAvatar(tempUserData.avatar)
+            transform_user(tempUserData)
         }
 
         if (!store.getState().user) {
@@ -74,7 +75,7 @@ export default function Header({ transform_user, user }: HeaderConfig) {
                 onMouseOver={() => setIsMouse(true)}
                 onMouseOut={() => setIsMouse(false)}
             >
-                <img src={userData ? userData.avatar : '#'} alt="avatar" className={`${stylePrefix}-avatar`} />
+                <img onClick={() => console.log(avatar)} src={avatar} alt="avatar" className={`${stylePrefix}-avatar`} />
                 <IconFont
                     type='icon-xiabiao'
                     className={`${stylePrefix}-icon`}

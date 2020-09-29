@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import 'styles/home/userList.scss'
 import { Table, Button, Select, Space } from 'antd';
-import userListModel from 'model/userList.json'
 import { AuthorConfig, IndentifyConfig, errorToast, successToast } from 'components/common/utils';
 import { getIdentifyListApi, getUserListApi } from 'http/UserApi';
 import { TablePaginationConfig } from 'antd/lib/table';
 import AlterUserInfoModal from './AlterUserInfoModal';
+import md5 from 'md5';
 
 const stylePrefix = 'home-userList'
 const { Option } = Select;
@@ -31,10 +31,10 @@ export default function UserList() {
         // TODO: 修改用户身份
         console.log(id);
     }
-    const deleteUser = (id: number) => {
+    const resetPassword = (id: number) => {
         // TODO: 重新获取用户列表
         // TODO: 删除用户
-        successToast(`删除${id}成功`)
+        successToast(md5('123456'));
     }
     const openModal = (user: UserItemConfig) => {
         setSelectedUser(user)
@@ -71,8 +71,8 @@ export default function UserList() {
             title: '身份',
             key: 'identify',
             dataIndex: 'identify',
-            render: (indentify: IndentifyConfig) => (
-                <Select defaultValue={indentify.id} style={{ width: 120 }} onChange={handleChange}>
+            render: (indentify: IndentifyConfig, record: UserItemConfig) => (
+                <Select disabled={record.isMy} defaultValue={indentify.id} style={{ width: 120 }} onChange={handleChange}>
                     {
                         identifyList.map((identifyItem, index) => {
                             return <Option key={index} value={identifyItem.id}>{identifyItem.value}</Option>
@@ -89,12 +89,11 @@ export default function UserList() {
                     <Space size='large' >
                         <Button type="primary" onClick={() => openModal(text)} >修改</Button>
                         {
-                            !text.isMy && <Button
+                            <Button
                                 type="primary"
-                                danger
-                                onClick={() => deleteUser(text.author.id)}
+                                onClick={() => resetPassword(text.author.id)}
                             >
-                                删除
+                                重置密码
                             </Button>
                         }
                     </Space>
@@ -104,22 +103,22 @@ export default function UserList() {
     ];
     const getUserList = async () => {
         setLoading(true)
-        // const res = await getUserListApi({
-        //     page: current
-        // })
-        // if (res.code === 0) {
-        const userListTemp = userListModel.list.map((userItem, index) => {
-            return {
-                ...userItem,
-                key: index.toString()
-            }
+        const res = await getUserListApi({
+            page: current
         })
-        setPageNum(userListModel.page)
-        setUserList(userListTemp)
-        setLoading(false)
-        // } else {
-        //     errorToast(res.message)
-        // }
+        if (res.code === 0) {
+            const userListTemp = res.data.list.map((userItem: any, index: number) => {
+                return {
+                    ...userItem,
+                    key: index.toString()
+                }
+            })
+            setPageNum(res.data.page)
+            setUserList(userListTemp)
+            setLoading(false)
+        } else {
+            errorToast(res.message)
+        }
     }
     const getIdentifyList = async () => {
         const res = await getIdentifyListApi();
@@ -131,7 +130,6 @@ export default function UserList() {
     }
     const handleTableChange = (pagination: TablePaginationConfig) => {
         if (pagination.current) {
-            // TODO: 重新获取用户列表
             getUserList()
             setCurrent(pagination.current)
         }

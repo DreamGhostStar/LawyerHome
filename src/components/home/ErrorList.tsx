@@ -8,6 +8,7 @@ import AuthorShow from 'components/common/AuthorShow'
 import { Radio, Button } from 'antd';
 import { RadioChangeEvent } from 'antd/lib/radio'
 import { getIdentifyListApi } from 'http/UserApi'
+import ErrorDetailModel from './ErrorDetailModel'
 
 const stylePrefix = 'home-error'
 
@@ -25,6 +26,9 @@ export default function ErrorList() {
     const [currentPage, setCurrentPage] = useState(1)
     const [pageNum, setPageNum] = useState(1)
     const [identifyList, setIdentifyList] = useState<IndentifyConfig[]>([])
+    const [visible, setVisible] = useState(false)
+    const [errorID, setErrorID] = useState<number | null>(null)
+
     const getErrorList = async (page: number) => {
         setLoading(true)
         setTimeout(() => {
@@ -44,6 +48,10 @@ export default function ErrorList() {
     const onChange = (e: RadioChangeEvent) => {
         setRadioIdentifyID(e.target.value)
         setCurrentPage(1)
+    }
+    const openModal = (id: number) => {
+        setErrorID(id)
+        setVisible(true)
     }
     useEffect(() => {
         getErrorList(currentPage)
@@ -72,6 +80,7 @@ export default function ErrorList() {
                         return <div
                             key={index}
                             className={`${stylePrefix}-errorItem-layout`}
+                            onClick={() => openModal(errorItem.id)}
                         >
                             <AuthorShow
                                 avatar={errorItem.author.avatar}
@@ -86,6 +95,11 @@ export default function ErrorList() {
                 <Button size='large' onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} >Previous</Button>
                 <Button size='large' onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === pageNum} >Next</Button>
             </div>
+            <ErrorDetailModel
+                visible={visible}
+                setVisible={setVisible}
+                errorID={errorID}
+            />
         </div>
     )
 }

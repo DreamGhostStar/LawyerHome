@@ -17,6 +17,16 @@ interface getVerifyDetailConfig {
 interface getUserListConfig {
     page: number
 }
+interface alterUserConfig {
+    userID: number
+    username: string
+    realname: string
+    phoneNumber: string
+}
+interface submitUserVerifyResultConfig {
+    id: number
+    isAgree: boolean
+}
 
 // 登录
 export const loginApi = async (data: loginConfig) => {
@@ -81,6 +91,30 @@ export const getUserListApi = async (data: getUserListConfig) => {
         method: 'GET',
         url: '/api/admin/user/list',
         params: data,
+        headers: getHeaders()
+    })
+
+    return res
+}
+
+// 修改用户信息
+export const alterUserApi = async (data: alterUserConfig) => {
+    const { data: res }: { data: httpConfig } = await axios({
+        method: 'PUT',
+        url: '/api/admin/realname',
+        data: data,
+        headers: getHeaders()
+    })
+
+    return res
+}
+
+// 提交用户审核结果
+export const submitUserVerifyResultApi = async (data: submitUserVerifyResultConfig) => {
+    const { data: res }: { data: httpConfig } = await axios({
+        method: 'PUT',
+        url: '/api/user/verify',
+        data: data,
         headers: getHeaders()
     })
 

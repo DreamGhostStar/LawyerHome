@@ -2,6 +2,8 @@ import { Button, Input, Modal } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { UserItemConfig } from './UserList'
 import 'styles/home/alterUserInfoModal.scss'
+import { alterUserApi } from 'http/UserApi'
+import { errorToast, successToast } from 'components/common/utils'
 
 const stylePrefix = 'home-alterUser'
 
@@ -17,16 +19,24 @@ export default function AlterUserInfoModal({ visible, setVisible, user, getUserL
     const [username, setUsername] = useState(user?.username)
     const [realname, setRealname] = useState(user?.author.realname)
     const [phone, setPhone] = useState(user?.phoneNumber)
-    const handleOk = () => {
-        setLoading(true)
-
-        console.log(username, realname, phone);
-        // TODO: 修改用户信息
-        setTimeout(() => {
+    const handleOk = async () => {
+        if (user && username && realname && phone) {
+            setLoading(true)
+            const res = await alterUserApi({
+                userID: user?.author.id,
+                username: username,
+                realname: realname,
+                phoneNumber: phone
+            })
+            if (res.code === 0) {
+                getUserList()
+                successToast('修改成功')
+            } else {
+                errorToast(res.message)
+            }
             setVisible(false)
             setLoading(false)
-            getUserList()
-        }, 2000);
+        }
     }
     const handleCancel = () => {
         setVisible(false)
@@ -48,7 +58,7 @@ export default function AlterUserInfoModal({ visible, setVisible, user, getUserL
     return (
         <Modal
             visible={visible}
-            title="Title"
+            title="修改用户信息"
             onOk={handleOk}
             onCancel={handleCancel}
             footer={[

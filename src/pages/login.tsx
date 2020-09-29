@@ -22,6 +22,10 @@ export default function Login({ transform_user }: LoginConfig) {
     const [password, setPassword] = useState('')
     const history = useHistory()
     const submit = async () => {
+        if(!isAgreeDocument) {
+            errorToast('请同意服务协议');
+            return;
+        }
         const res = await loginApi({
             username: username,
             password: md5(password)

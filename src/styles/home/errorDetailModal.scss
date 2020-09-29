@@ -1,11 +1,10 @@
-$file-prefix: 'home-verifyDetail';
+$file-prefix: 'home-errorDetail';
 
 .#{$file-prefix}-content {
     margin-top: 20px;
-    color: #ccc;
 }
 
-.#{$file-prefix}-image-layout {
+.#{$file-prefix}-img-layout {
     display: grid;
     width: 100%;
     grid-row-gap: 20px;
@@ -13,12 +12,7 @@ $file-prefix: 'home-verifyDetail';
     grid-template-columns: repeat(3, 30%);
     grid-template-rows: 30%;
 
-    .#{$file-prefix}-image {
+    .#{$file-prefix}-img {
         width: 100%;
     }
-}
-.#{$file-prefix}-btn-layout {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-around;
 }

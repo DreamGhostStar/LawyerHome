@@ -66,7 +66,12 @@ export default function UserVerify() {
                         </div>
                     })
             }
-            <UserVerifyDetail visible={visible} setVisible={setVisible} verifyID={verifyID} />
+            <UserVerifyDetail
+                visible={visible}
+                setVisible={setVisible}
+                verifyID={verifyID}
+                getUserVerifyList={getUserVerifyList}
+            />
         </div>
     )
 }
