@@ -30,6 +30,10 @@ export const setToken = (token: string) => {
     })
 }
 
+export const removeToken = () => {
+    cookies.remove('Authorization')
+}
+
 export const getHeaders = () => {
     const token: string = getToken()
     return {

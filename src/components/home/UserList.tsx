@@ -148,11 +148,11 @@ export default function UserList() {
                 }}
                 onChange={handleTableChange}
             />
-            <AlterUserInfoModal 
-            visible={visible} 
-            setVisible={setVisible} 
-            user={selectedUser} 
-            getUserList={getUserList} 
+            <AlterUserInfoModal
+                visible={visible}
+                setVisible={setVisible}
+                user={selectedUser}
+                getUserList={getUserList}
             />
         </div>
     )

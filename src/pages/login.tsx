@@ -27,7 +27,7 @@ export default function Login({ transform_user }: LoginConfig) {
             password: md5(password)
         })
         if (res.code === 0) {
-            history.push('/')
+            history.push('/home')
             setToken(res.data)
             successToast('登录成功')
         } else {
@@ -41,7 +41,7 @@ export default function Login({ transform_user }: LoginConfig) {
             if (res.code === 0) {
                 const userData: UserBasicConfig = res.data
                 transform_user(userData)
-                history.push('/')
+                history.push('/home')
             }
         }
     }
