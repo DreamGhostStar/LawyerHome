@@ -9,6 +9,7 @@ import { Radio, Button } from 'antd';
 import { RadioChangeEvent } from 'antd/lib/radio'
 import { getIdentifyListApi } from 'http/UserApi'
 import ErrorDetailModel from './ErrorDetailModel'
+import { getErrorListApi } from 'http/ErrorMessageApi'
 
 const stylePrefix = 'home-error'
 
@@ -31,11 +32,17 @@ export default function ErrorList() {
 
     const getErrorList = async (page: number) => {
         setLoading(true)
-        setTimeout(() => {
+        const res = await getErrorListApi({
+            identityID: radioIdentifyID,
+            page: page
+        })
+        if (res.code === 0) {
             setErrorList(ErrorListModel.list)
             setPageNum(ErrorListModel.page)
-            setLoading(false)
-        }, 2000);
+        } else {
+            errorToast(res.message)
+        }
+        setLoading(false)
     }
     const getIdentifyList = async () => {
         const res = await getIdentifyListApi();

@@ -4,6 +4,7 @@ import { httpConfig, getHeaders } from 'components/common/utils'
 interface loginConfig {
     username: string
     password: string
+    isAdmin: boolean
 }
 
 interface getBasicUserConfig {
@@ -27,12 +28,16 @@ interface submitUserVerifyResultConfig {
     id: number
     isAgree: boolean
 }
+interface resetPasswordConfig {
+    userID: number
+    password: string
+}
 
 // 登录
 export const loginApi = async (data: loginConfig) => {
     const { data: res }: { data: httpConfig } = await axios({
         method: 'PUT',
-        url: '/api/user/login',
+        url: `/api/user/login`,
         data: data
     })
 
@@ -43,7 +48,7 @@ export const loginApi = async (data: loginConfig) => {
 export const getBasicUserApi = async (data: getBasicUserConfig) => {
     const { data: res }: { data: httpConfig } = await axios({
         method: 'GET',
-        url: '/api/user/basic',
+        url: `/api/user/basic`,
         data: data,
         headers: getHeaders()
     })
@@ -55,7 +60,7 @@ export const getBasicUserApi = async (data: getBasicUserConfig) => {
 export const getIdentifyListApi = async () => {
     const { data: res }: { data: httpConfig } = await axios({
         method: 'GET',
-        url: '/api/user/identify',
+        url: `/api/user/identify`,
         headers: getHeaders()
     })
 
@@ -66,7 +71,7 @@ export const getIdentifyListApi = async () => {
 export const getUserVerifyListApi = async () => {
     const { data: res }: { data: httpConfig } = await axios({
         method: 'GET',
-        url: '/api/user/verify/list',
+        url: `/api/user/verify/list`,
         headers: getHeaders()
     })
 
@@ -77,7 +82,7 @@ export const getUserVerifyListApi = async () => {
 export const getUserVerifyDetailApi = async (data: getVerifyDetailConfig) => {
     const { data: res }: { data: httpConfig } = await axios({
         method: 'GET',
-        url: '/api/user/verify',
+        url: `/api/user/verify`,
         params: data,
         headers: getHeaders()
     })
@@ -89,7 +94,7 @@ export const getUserVerifyDetailApi = async (data: getVerifyDetailConfig) => {
 export const getUserListApi = async (data: getUserListConfig) => {
     const { data: res }: { data: httpConfig } = await axios({
         method: 'GET',
-        url: '/api/admin/user/list',
+        url: `/api/admin/user/list`,
         params: data,
         headers: getHeaders()
     })
@@ -101,7 +106,7 @@ export const getUserListApi = async (data: getUserListConfig) => {
 export const alterUserApi = async (data: alterUserConfig) => {
     const { data: res }: { data: httpConfig } = await axios({
         method: 'PUT',
-        url: '/api/admin/realname',
+        url: `/api/admin/realname`,
         data: data,
         headers: getHeaders()
     })
@@ -113,7 +118,19 @@ export const alterUserApi = async (data: alterUserConfig) => {
 export const submitUserVerifyResultApi = async (data: submitUserVerifyResultConfig) => {
     const { data: res }: { data: httpConfig } = await axios({
         method: 'PUT',
-        url: '/api/user/verify',
+        url: `/api/user/verify`,
+        data: data,
+        headers: getHeaders()
+    })
+
+    return res
+}
+
+// 重置密码
+export const resetPasswordApi = async (data: resetPasswordConfig) => {
+    const { data: res }: { data: httpConfig } = await axios({
+        method: 'PUT',
+        url: `/api/admin/password`,
         data: data,
         headers: getHeaders()
     })

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import 'styles/pages/login.scss'
 import { successToast, errorToast, setToken, getToken } from 'components/common/utils'
 import { loginApi, getBasicUserApi } from 'http/UserApi';
@@ -6,6 +6,7 @@ import md5 from 'md5'
 import { useHistory } from 'react-router-dom';
 import { Checkbox, Button } from 'antd';
 import { UserBasicConfig } from 'components/home/Header';
+import ReactSimpleVerify from 'react-simple-verify'
 
 const stylePrefix = 'page-login'
 
@@ -20,15 +21,22 @@ export default function Login({ transform_user }: LoginConfig) {
     const [isAgreeDocument, setIsAgreeDocument] = useState(false)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [isVerify, setIsVerify] = useState(false)
     const history = useHistory()
+    const verifyRef = useRef(null)
     const submit = async () => {
-        if(!isAgreeDocument) {
+        if (!isAgreeDocument) {
             errorToast('请同意服务协议');
             return;
         }
+        if (!isVerify) {
+            errorToast('请完成人机验证')
+            return
+        }
         const res = await loginApi({
             username: username,
-            password: md5(password)
+            password: md5(password),
+            isAdmin: true
         })
         if (res.code === 0) {
             history.push('/home')
@@ -76,6 +84,7 @@ export default function Login({ transform_user }: LoginConfig) {
                             placeholder='密码'
                             onChange={(e) => setPassword(e.target.value)}
                         />
+                        <ReactSimpleVerify width={270} ref={verifyRef} success={() => setIsVerify(true)} />
                         <div className={`${stylePrefix}-operation-layout`}>
                             <Checkbox
                                 onChange={() => setIsAgreeDocument(!isAgreeDocument)}

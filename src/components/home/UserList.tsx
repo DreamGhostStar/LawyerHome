@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import 'styles/home/userList.scss'
 import { Table, Button, Select, Space } from 'antd';
 import { AuthorConfig, IndentifyConfig, errorToast, successToast } from 'components/common/utils';
-import { getIdentifyListApi, getUserListApi } from 'http/UserApi';
+import { getIdentifyListApi, getUserListApi, resetPasswordApi } from 'http/UserApi';
 import { TablePaginationConfig } from 'antd/lib/table';
 import AlterUserInfoModal from './AlterUserInfoModal';
 import md5 from 'md5';
@@ -31,10 +31,12 @@ export default function UserList() {
         // TODO: 修改用户身份
         console.log(id);
     }
-    const resetPassword = (id: number) => {
-        // TODO: 重新获取用户列表
-        // TODO: 删除用户
-        successToast(md5('123456'));
+    const resetPassword = async (id: number) => {
+        const res = await resetPasswordApi({
+            userID: id,
+            password: md5('123456')
+        })
+        res.code === 0 ? successToast('重置密码成功') : errorToast(res.message)
     }
     const openModal = (user: UserItemConfig) => {
         setSelectedUser(user)
