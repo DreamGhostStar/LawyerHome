@@ -11,10 +11,11 @@ interface AlterUserInfoModalConfig {
     visible: boolean
     setVisible: React.Dispatch<React.SetStateAction<boolean>>
     user: UserItemConfig | null
-    getUserList: () => Promise<void>
+    getUserList: (page: number) => Promise<void>
+    current: number
 }
 
-export default function AlterUserInfoModal({ visible, setVisible, user, getUserList }: AlterUserInfoModalConfig) {
+export default function AlterUserInfoModal({ visible, setVisible, user, getUserList, current }: AlterUserInfoModalConfig) {
     const [loading, setLoading] = useState(false)
     const [username, setUsername] = useState(user?.username)
     const [realname, setRealname] = useState(user?.author.realname)
@@ -29,7 +30,7 @@ export default function AlterUserInfoModal({ visible, setVisible, user, getUserL
                 phoneNumber: phone
             })
             if (res.code === 0) {
-                getUserList()
+                getUserList(current)
                 successToast('修改成功')
             } else {
                 errorToast(res.message)

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import 'styles/home/userList.scss'
 import { Table, Button, Select, Space } from 'antd';
 import { AuthorConfig, IndentifyConfig, errorToast, successToast } from 'components/common/utils';
-import { getIdentifyListApi, getUserListApi, resetPasswordApi } from 'http/UserApi';
+import { getIdentifyListApi, getUserListApi, resetPasswordApi, alterUserIdentifyApi } from 'http/UserApi';
 import { TablePaginationConfig } from 'antd/lib/table';
 import AlterUserInfoModal from './AlterUserInfoModal';
 import md5 from 'md5';
@@ -27,9 +27,13 @@ export default function UserList() {
     const [current, setCurrent] = useState(1)
     const [visible, setVisible] = useState(false)
     const [selectedUser, setSelectedUser] = useState<null | UserItemConfig>(null)
-    const handleChange = (id: number) => {
+    const handleChange = async (userID: number, identifyID: number) => {
         // TODO: 修改用户身份
-        console.log(id);
+        const res = await alterUserIdentifyApi({
+            userID: userID,
+            identifyID: identifyID
+        })
+        res.code === 0 ? successToast('修改成功') : errorToast(res.message)
     }
     const resetPassword = async (id: number) => {
         const res = await resetPasswordApi({
@@ -74,7 +78,12 @@ export default function UserList() {
             key: 'identify',
             dataIndex: 'identify',
             render: (indentify: IndentifyConfig, record: UserItemConfig) => (
-                <Select disabled={record.isMy} defaultValue={indentify.id} style={{ width: 120 }} onChange={handleChange}>
+                <Select
+                    disabled={record.isMy}
+                    defaultValue={indentify.id}
+                    style={{ width: 120 }}
+                    onChange={(identifyID) => handleChange(record.author.id, identifyID)}
+                >
                     {
                         identifyList.map((identifyItem, index) => {
                             return <Option key={index} value={identifyItem.id}>{identifyItem.value}</Option>
@@ -103,10 +112,10 @@ export default function UserList() {
             },
         },
     ];
-    const getUserList = async () => {
+    const getUserList = async (page: number) => {
         setLoading(true)
         const res = await getUserListApi({
-            page: current
+            page: page
         })
         if (res.code === 0) {
             const userListTemp = res.data.list.map((userItem: any, index: number) => {
@@ -132,12 +141,12 @@ export default function UserList() {
     }
     const handleTableChange = (pagination: TablePaginationConfig) => {
         if (pagination.current) {
-            getUserList()
+            getUserList(pagination.current)
             setCurrent(pagination.current)
         }
     };
     useEffect(() => {
-        getUserList()
+        getUserList(1)
         getIdentifyList()
     }, [])
     return (
@@ -158,6 +167,7 @@ export default function UserList() {
                 setVisible={setVisible}
                 user={selectedUser}
                 getUserList={getUserList}
+                current={current}
             />
         </div>
     )

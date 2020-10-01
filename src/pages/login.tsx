@@ -24,7 +24,17 @@ export default function Login({ transform_user }: LoginConfig) {
     const [isVerify, setIsVerify] = useState(false)
     const history = useHistory()
     const verifyRef = useRef(null)
+    const [usernameError, setUsernameError] = useState('')
+    const [passwordError, setPasswordError] = useState('')
+    const usernameReg = /^\w{6,}$/
+    const passwordReg = /^\w{6,20}$/
+    const usernameErrorText = '用户名需由6位及6位以上字母或数字组成'
+    const passwordErrorText = '密码需由6-20位字母或数字组成'
     const submit = async () => {
+        if (!usernameReg.test(username) || !passwordReg.test(password)) {
+            errorToast('请按提示完成信息填入')
+            return
+        }
         if (!isAgreeDocument) {
             errorToast('请同意服务协议');
             return;
@@ -44,6 +54,27 @@ export default function Login({ transform_user }: LoginConfig) {
             successToast('登录成功')
         } else {
             errorToast(res.message);
+        }
+    }
+    // 处理输入框变化
+    const handleInputChange = (
+        event: React.ChangeEvent<HTMLInputElement>,
+        setErrorStateFunc: React.Dispatch<React.SetStateAction<string>>,
+        reg: RegExp,
+        setStateFunc: React.Dispatch<React.SetStateAction<string>>,
+        symbolErrorText: string
+    ) => {
+        const inputValue = event.target.value
+        setStateFunc(inputValue)
+        if (!inputValue) {
+            setErrorStateFunc('输入不能为空')
+            return
+        }
+
+        if (!reg.test(inputValue)) {
+            setErrorStateFunc(symbolErrorText)
+        } else {
+            setErrorStateFunc('')
         }
     }
     const getUserInfo = async () => {
@@ -76,14 +107,16 @@ export default function Login({ transform_user }: LoginConfig) {
                             type="text"
                             className={`${stylePrefix}-input`}
                             placeholder='用户名'
-                            onChange={(e) => setUsername(e.target.value)}
+                            onChange={(e) => handleInputChange(e, setUsernameError, usernameReg, setUsername, usernameErrorText)}
                         />
+                        <div className={`${stylePrefix}-input-error-text`}>{usernameError}</div>
                         <input
                             type='password'
                             className={`${stylePrefix}-input`}
                             placeholder='密码'
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => handleInputChange(e, setPasswordError, passwordReg, setPassword, passwordErrorText)}
                         />
+                        <div className={`${stylePrefix}-input-error-text`}>{passwordError}</div>
                         <ReactSimpleVerify width={270} ref={verifyRef} success={() => setIsVerify(true)} />
                         <div className={`${stylePrefix}-operation-layout`}>
                             <Checkbox

@@ -32,6 +32,10 @@ interface resetPasswordConfig {
     userID: number
     password: string
 }
+interface alterUserIdentifyConfig {
+    userID: number
+    identifyID: number
+}
 
 // 登录
 export const loginApi = async (data: loginConfig) => {
@@ -131,6 +135,18 @@ export const resetPasswordApi = async (data: resetPasswordConfig) => {
     const { data: res }: { data: httpConfig } = await axios({
         method: 'PUT',
         url: `/api/admin/password`,
+        data: data,
+        headers: getHeaders()
+    })
+
+    return res
+}
+
+// 修改用户身份
+export const alterUserIdentifyApi = async (data: alterUserIdentifyConfig) => {
+    const { data: res }: { data: httpConfig } = await axios({
+        method: 'PUT',
+        url: `/api/admin/indentify`,
         data: data,
         headers: getHeaders()
     })
