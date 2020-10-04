@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Modal } from 'antd'
 import AuthorShow from 'components/common/AuthorShow'
-import { AuthorConfig } from 'components/common/utils'
+import { AuthorConfig, errorToast } from 'components/common/utils'
 import Loading2 from 'components/common/Loading2'
 import errorDetailModel from 'model/errorDetail.json'
 import 'styles/home/errorDetailModal.scss'
+import { getErrorDetailApi } from 'http/ErrorMessageApi'
 
 const stylePrefix = 'home-errorDetail'
 
@@ -28,15 +29,23 @@ export default function ErrorDetailModel({ visible, setVisible, errorID }: Error
         setVisible(false)
     }
     const getErrorDetail = async () => {
+        if (errorID === null) {
+            return
+        }
         setLoading(true)
-        setTimeout(() => {
-            setErrorDetail(errorDetailModel)
-            setLoading(false)
-        }, 1000);
+        const res = await getErrorDetailApi({
+            errorID: errorID
+        })
+        if (res.code === 0) {
+            setErrorDetail(res.data)
+        } else {
+            errorToast(res.message)
+        }
+        setLoading(false)
     }
     useEffect(() => {
         getErrorDetail()
-    }, [])
+    }, [errorID])
     return (
         <Modal
             visible={visible}

@@ -36,9 +36,10 @@ export default function ErrorList() {
             identityID: radioIdentifyID,
             page: page
         })
+        console.log(res);
         if (res.code === 0) {
-            setErrorList(ErrorListModel.list)
-            setPageNum(ErrorListModel.page)
+            setErrorList(res.data.list)
+            setPageNum(res.data.page)
         } else {
             errorToast(res.message)
         }

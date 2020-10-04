@@ -10,7 +10,7 @@ interface LoadingConfig {
 export default function Loading2({ backgroundColor = '#fff' }: LoadingConfig) {
     return (
         <div
-            className={`${stylePrefix}-container`}
+            className={`${stylePrefix}-layout`}
             style={{
                 backgroundColor: (backgroundColor)
             }}
