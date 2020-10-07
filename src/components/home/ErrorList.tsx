@@ -64,7 +64,7 @@ export default function ErrorList() {
     useEffect(() => {
         getErrorList(currentPage)
         getIdentifyList()
-    }, [currentPage || radioIdentifyID])
+    }, [currentPage, radioIdentifyID])
     return (
         <div className={`${stylePrefix}-layout`} >
             <Radio.Group className={`${stylePrefix}-radio-group`} onChange={onChange} value={radioIdentifyID}>

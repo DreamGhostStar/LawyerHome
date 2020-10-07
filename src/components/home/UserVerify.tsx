@@ -5,6 +5,7 @@ import { AuthorConfig, errorToast } from 'components/common/utils'
 import Loading2 from 'components/common/Loading2'
 import UserVerifyDetail from './UserVerifyDetail'
 import AuthorShow from 'components/common/AuthorShow'
+import userVerifyModelList from 'model/userVerifyList.json'
 
 const stylePrefix = 'home-userverify'
 
@@ -26,6 +27,7 @@ export default function UserVerify() {
         setLoading(true)
         const res = await getUserVerifyListApi()
         if (res.code === 0) {
+            console.log(res.data);
             setUserVerifyList(res.data)
         } else {
             errorToast(res.message)
