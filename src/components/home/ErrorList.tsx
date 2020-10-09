@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import 'styles/home/errorList.scss'
 import { AuthorConfig, errorToast, IndentifyConfig } from 'components/common/utils'
-import ErrorListModel from 'model/errorList.json'
 import 'styles/home/errorList.scss'
 import Loading2 from 'components/common/Loading2'
 import AuthorShow from 'components/common/AuthorShow'
@@ -99,10 +98,14 @@ export default function ErrorList() {
                         </div>
                     })
             }
-            <div className={`${stylePrefix}-btn-layout`}>
-                <Button size='large' onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} >Previous</Button>
-                <Button size='large' onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === pageNum} >Next</Button>
-            </div>
+            {
+                errorList.length !== 0
+                    ? <div className={`${stylePrefix}-btn-layout`}>
+                        <Button size='large' onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} >Previous</Button>
+                        <Button size='large' onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === pageNum} >Next</Button>
+                    </div>
+                    : <p className='empty-tip' >暂无信息</p>
+            }
             <ErrorDetailModel
                 visible={visible}
                 setVisible={setVisible}

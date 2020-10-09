@@ -6,6 +6,7 @@ import { getIdentifyListApi, getUserListApi, resetPasswordApi, alterUserIdentify
 import { TablePaginationConfig } from 'antd/lib/table';
 import AlterUserInfoModal from './AlterUserInfoModal';
 import md5 from 'md5';
+import UserListModel from 'model/userList.json'
 
 const stylePrefix = 'home-userList'
 const { Option } = Select;
@@ -23,10 +24,10 @@ export default function UserList() {
     const [loading, setLoading] = useState(false)
     const [userList, setUserList] = useState<UserItemConfig[]>([])
     const [identifyList, setIdentifyList] = useState<IndentifyConfig[]>([])
-    const [pageNum, setPageNum] = useState(1)
     const [current, setCurrent] = useState(1)
     const [visible, setVisible] = useState(false)
     const [selectedUser, setSelectedUser] = useState<null | UserItemConfig>(null)
+    const [num, setNum] = useState(0)
     const handleChange = async (userID: number, identifyID: number) => {
         // TODO: 修改用户身份
         const res = await alterUserIdentifyApi({
@@ -112,11 +113,9 @@ export default function UserList() {
             },
         },
     ];
-    const getUserList = async (page: number) => {
+    const getUserList = async () => {
         setLoading(true)
-        const res = await getUserListApi({
-            page: page
-        })
+        const res = await getUserListApi()
         if (res.code === 0) {
             const userListTemp = res.data.list.map((userItem: any, index: number) => {
                 return {
@@ -124,7 +123,7 @@ export default function UserList() {
                     key: index.toString()
                 }
             })
-            setPageNum(res.data.page)
+            setNum(res.data.list.length)
             setUserList(userListTemp)
             setLoading(false)
         } else {
@@ -141,12 +140,11 @@ export default function UserList() {
     }
     const handleTableChange = (pagination: TablePaginationConfig) => {
         if (pagination.current) {
-            getUserList(pagination.current)
             setCurrent(pagination.current)
         }
     };
     useEffect(() => {
-        getUserList(1)
+        getUserList()
         getIdentifyList()
     }, [])
     return (
@@ -158,7 +156,7 @@ export default function UserList() {
                 pagination={{
                     current: current,
                     pageSize: 10, // 一页多少项
-                    total: pageNum * 10, // 总共多少项
+                    total: num, // 总共多少项
                 }}
                 onChange={handleTableChange}
             />

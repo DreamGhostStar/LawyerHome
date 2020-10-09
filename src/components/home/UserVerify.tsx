@@ -47,26 +47,28 @@ export default function UserVerify() {
             {
                 loading
                     ? <Loading2 backgroundColor='#fff' />
-                    : userVerifyList.map((userVerifyItem, index) => {
-                        return <div
-                            key={index}
-                            className={`${stylePrefix}-user-verify-item`}
-                            onClick={() => openModal(userVerifyItem.id)}
-                        >
-                            <div className={`${stylePrefix}-user-verify-item-main`}>
-                                <AuthorShow
-                                    avatar={userVerifyItem.author.avatar}
-                                    realname={userVerifyItem.author.realname}
-                                    createTime={userVerifyItem.createTime}
-                                />
-                                <p className={`${stylePrefix}-abstract`}>{userVerifyItem.abstract}</p>
+                    : userVerifyList.length !== 0
+                        ? userVerifyList.map((userVerifyItem, index) => {
+                            return <div
+                                key={index}
+                                className={`${stylePrefix}-user-verify-item`}
+                                onClick={() => openModal(userVerifyItem.id)}
+                            >
+                                <div className={`${stylePrefix}-user-verify-item-main`}>
+                                    <AuthorShow
+                                        avatar={userVerifyItem.author.avatar}
+                                        realname={userVerifyItem.author.realname}
+                                        createTime={userVerifyItem.createTime}
+                                    />
+                                    <p className={`${stylePrefix}-abstract`}>{userVerifyItem.abstract}</p>
+                                </div>
+                                {
+                                    userVerifyItem.firstPicture &&
+                                    <img src={userVerifyItem.firstPicture} alt="图片" className={`${stylePrefix}-picture`} />
+                                }
                             </div>
-                            {
-                                userVerifyItem.firstPicture &&
-                                <img src={userVerifyItem.firstPicture} alt="图片" className={`${stylePrefix}-picture`} />
-                            }
-                        </div>
-                    })
+                        })
+                        : <p className='empty-tip' >暂无信息</p>
             }
             <UserVerifyDetail
                 visible={visible}

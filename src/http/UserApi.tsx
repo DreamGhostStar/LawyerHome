@@ -14,10 +14,6 @@ interface getBasicUserConfig {
 interface getVerifyDetailConfig {
     id: number
 }
-
-interface getUserListConfig {
-    page: number
-}
 interface alterUserConfig {
     userID: number
     username: string
@@ -95,11 +91,10 @@ export const getUserVerifyDetailApi = async (data: getVerifyDetailConfig) => {
 }
 
 // 获取用户列表信息
-export const getUserListApi = async (data: getUserListConfig) => {
+export const getUserListApi = async () => {
     const { data: res }: { data: httpConfig } = await axios({
         method: 'GET',
         url: `/api/admin/user/list`,
-        params: data,
         headers: getHeaders()
     })
 
