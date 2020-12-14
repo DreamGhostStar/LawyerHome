@@ -1,0 +1,21 @@
+language: node_js
+node_js:
+- stable
+cache:
+  directories:
+  - node_modules
+install:
+- npm install
+script:
+  - yarn build # 在推送到仓库前，先打包
+branches:
+  only:
+  - master
+before_install:
+- openssl aes-256-cbc -K $encrypted_9b2d7e19d83c_key -iv $encrypted_9b2d7e19d83c_iv -in id_rsa.enc -out ~/.ssh/id_rsa -d
+addons:
+  ssh_known_hosts: 
+  - 106.14.174.206
+after_success:
+  - chmod 600 ~/.ssh/id_rsa
+  - ssh root@106.14.174.206 -o StrictHostKeyChecking=no 'cd /project && rm -rf /project/LawyerHome && git clone https://github.com.cnpmjs.org/DreamGhostStar/LawyerHome.git && cd LawyerHome/ && nginx -s reload'   #使用ssh连接服务器
