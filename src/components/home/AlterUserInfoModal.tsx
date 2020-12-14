@@ -2,34 +2,35 @@ import { Button, Input, Modal } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { UserItemConfig } from './UserList'
 import 'styles/home/alterUserInfoModal.scss'
-import { alterUserApi } from 'http/UserApi'
-import { errorToast, successToast } from 'components/common/utils'
+import { alterUserApi, alter_user_info_api, get_user_detail_info_api, IAlterUserInfo } from 'http/UserApi'
+import { errorToast, httpIsSuccess, successToast } from 'components/common/utils'
+import Loading2 from 'components/common/Loading2'
 
 const stylePrefix = 'home-alterUser'
 
 interface AlterUserInfoModalConfig {
     visible: boolean
     setVisible: React.Dispatch<React.SetStateAction<boolean>>
-    user: UserItemConfig | null
+    userID: number | null;
     getUserList: (page: number) => Promise<void>
     current: number
 }
 
-export default function AlterUserInfoModal({ visible, setVisible, user, getUserList, current }: AlterUserInfoModalConfig) {
+interface UserDetailConfig {
+    name: string | null;
+    phoneNumber: string | null;
+    weixin_number: string | null;
+    lawyer_number: string | null;
+}
+
+export default function AlterUserInfoModal({ visible, setVisible, userID, getUserList, current }: AlterUserInfoModalConfig) {
     const [loading, setLoading] = useState(false)
-    const [username, setUsername] = useState(user?.username)
-    const [realname, setRealname] = useState(user?.author.realname)
-    const [phone, setPhone] = useState(user?.phoneNumber)
+    const [user, setUser] = useState<UserDetailConfig | null>(null)
     const handleOk = async () => {
-        if (user && username && realname && phone) {
+        if (user && user.name && user.phoneNumber && user.lawyer_number && user.weixin_number) {
             setLoading(true)
-            const res = await alterUserApi({
-                userID: user?.author.id,
-                username: username,
-                realname: realname,
-                phoneNumber: phone
-            })
-            if (res.code === 0) {
+            const res = await alter_user_info_api((user as IAlterUserInfo))
+            if (httpIsSuccess(res.code)) {
                 getUserList(current)
                 successToast('修改成功')
             } else {
@@ -39,23 +40,32 @@ export default function AlterUserInfoModal({ visible, setVisible, user, getUserL
             setLoading(false)
         }
     }
+    // 处理输入框变化
+    const handleInput = (key: string, value: string) => {
+        if (user) {
+            setUser({
+                ...user,
+                [key]: value
+            })
+        }
+    }
+    // 获取用户详细信息
+    const getUserDetail = async () => {
+        if (userID !== null) {
+            const res = await get_user_detail_info_api({ userID });
+            if (httpIsSuccess(res.code)) {
+                setUser(res.data)
+            } else {
+                errorToast(res.message)
+            }
+        }
+    }
     const handleCancel = () => {
         setVisible(false)
     }
-    const handleUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUsername(e.target.value)
-    }
-    const handleRealname = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setRealname(e.target.value)
-    }
-    const handlePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPhone(e.target.value)
-    }
     useEffect(() => {
-        setRealname(user?.author.realname)
-        setUsername(user?.username)
-        setPhone(user?.phoneNumber)
-    }, [user])
+        getUserDetail()
+    }, [userID])
     return (
         <Modal
             visible={visible}
@@ -72,11 +82,33 @@ export default function AlterUserInfoModal({ visible, setVisible, user, getUserL
             ]}
         >
             {
-                user && <>
-                    <Input value={username} onChange={handleUsername} className={`${stylePrefix}-input`} />
-                    <Input value={realname} onChange={handleRealname} className={`${stylePrefix}-input`} />
-                    <Input value={phone} onChange={handlePhone} className={`${stylePrefix}-input`} />
+                user ? <>
+                    <Input
+                        value={user.name || ''}
+                        placeholder='姓名'
+                        onChange={(e) => handleInput('name', e.target.value)}
+                        className={`${stylePrefix}-input`}
+                    />
+                    <Input
+                        value={user.phoneNumber || ''}
+                        placeholder='手机号'
+                        onChange={(e) => handleInput('phoneNumber', e.target.value)}
+                        className={`${stylePrefix}-input`}
+                    />
+                    <Input
+                        value={user.lawyer_number || ''}
+                        placeholder='律师证号'
+                        onChange={(e) => handleInput('lawyer_number', e.target.value)}
+                        className={`${stylePrefix}-input`}
+                    />
+                    <Input
+                        value={user.weixin_number || ''}
+                        placeholder='微信号'
+                        onChange={(e) => handleInput('weixin_number', e.target.value)}
+                        className={`${stylePrefix}-input`}
+                    />
                 </>
+                    : <Loading2 />
             }
         </Modal>
     )

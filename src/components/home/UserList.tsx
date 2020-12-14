@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import 'styles/home/userList.scss'
 import { Table, Button, Select, Space } from 'antd';
-import { AuthorConfig, IndentifyConfig, errorToast, successToast } from 'components/common/utils';
-import { getIdentifyListApi, getUserListApi, resetPasswordApi, alterUserIdentifyApi } from 'http/UserApi';
+import { AuthorConfig, IndentifyConfig, errorToast, successToast, httpIsSuccess } from 'components/common/utils';
+import { resetPasswordApi, get_user_list_api, alter_user_identify_api, reset_user_password_api } from 'http/UserApi';
 import { TablePaginationConfig } from 'antd/lib/table';
 import AlterUserInfoModal from './AlterUserInfoModal';
 import md5 from 'md5';
-import UserListModel from 'model/userList.json'
+import indentifyList from 'static/identify.json'
 
 const stylePrefix = 'home-userList'
 const { Option } = Select;
@@ -14,65 +14,54 @@ const { Option } = Select;
 export interface UserItemConfig {
     key: string
     isMy: boolean
-    author: AuthorConfig,
-    username: string,
-    phoneNumber: string,
-    identify: IndentifyConfig
+    avatar: string,
+    name: string,
+    identify: IndentifyConfig;
 }
 
 export default function UserList() {
     const [loading, setLoading] = useState(false)
     const [userList, setUserList] = useState<UserItemConfig[]>([])
-    const [identifyList, setIdentifyList] = useState<IndentifyConfig[]>([])
-    const [current, setCurrent] = useState(1)
+    const [current, setCurrent] = useState(1) // 当前page
     const [visible, setVisible] = useState(false)
-    const [selectedUser, setSelectedUser] = useState<null | UserItemConfig>(null)
+    const [selectedUserID, setSelectedUserID] = useState<number|null>(null)
     const [num, setNum] = useState(0)
+    // 修改用户身份
     const handleChange = async (userID: number, identifyID: number) => {
-        // TODO: 修改用户身份
-        const res = await alterUserIdentifyApi({
+        const res = await alter_user_identify_api({
             userID: userID,
             identifyID: identifyID
         })
-        res.code === 0 ? successToast('修改成功') : errorToast(res.message)
+        httpIsSuccess(res.code) ? successToast('修改成功') : errorToast(res.message)
     }
+    // 重置用户密码
     const resetPassword = async (id: number) => {
-        const res = await resetPasswordApi({
+        const res = await reset_user_password_api({
             userID: id,
             password: md5('123456')
         })
-        res.code === 0 ? successToast('重置密码成功') : errorToast(res.message)
+        httpIsSuccess(res.code) ? successToast('重置密码成功') : errorToast(res.message)
     }
-    const openModal = (user: UserItemConfig) => {
-        setSelectedUser(user)
+    const openModal = (userID: number) => {
+        setSelectedUserID(userID)
         setVisible(true)
     }
     const columns = [
         {
-            title: '昵称',
+            title: '姓名',
             dataIndex: 'author',
             key: 'author',
-            render: (author: AuthorConfig, record: UserItemConfig) => {
+            render: (_author: AuthorConfig, record: UserItemConfig) => {
                 return (
                     <div className={`${stylePrefix}-author`}>
-                        <img className={`${stylePrefix}-avatar`} src={author.avatar} alt="头像" />
-                        <p className={`${stylePrefix}-realname`} >{author.realname}</p>
+                        <img className={`${stylePrefix}-avatar`} src={record.avatar} alt="头像" />
+                        <p className={`${stylePrefix}-realname`} >{record.name}</p>
                         {
                             record.isMy && <div className={`${stylePrefix}-tag`}>我</div>
                         }
                     </div>
                 )
             },
-        },
-        {
-            title: '用户名',
-            dataIndex: 'username',
-            key: 'username',
-        },
-        {
-            title: '手机号',
-            dataIndex: 'phoneNumber',
-            key: 'phoneNumber',
         },
         {
             title: '身份',
@@ -83,10 +72,10 @@ export default function UserList() {
                     disabled={record.isMy}
                     defaultValue={indentify.id}
                     style={{ width: 120 }}
-                    onChange={(identifyID) => handleChange(record.author.id, identifyID)}
+                    onChange={(identifyID) => handleChange(parseInt(record.key), identifyID)}
                 >
                     {
-                        identifyList.map((identifyItem, index) => {
+                        indentifyList.map((identifyItem, index) => {
                             return <Option key={index} value={identifyItem.id}>{identifyItem.value}</Option>
                         })
                     }
@@ -99,11 +88,11 @@ export default function UserList() {
             render: (text: UserItemConfig) => {
                 return (
                     <Space size='large' >
-                        <Button type="primary" onClick={() => openModal(text)} >修改</Button>
+                        <Button type="primary" onClick={() => openModal(parseInt(text.key))} >修改</Button>
                         {
                             <Button
                                 type="primary"
-                                onClick={() => resetPassword(text.author.id)}
+                                onClick={() => resetPassword(parseInt(text.key))}
                             >
                                 重置密码
                             </Button>
@@ -115,25 +104,17 @@ export default function UserList() {
     ];
     const getUserList = async () => {
         setLoading(true)
-        const res = await getUserListApi()
-        if (res.code === 0) {
-            const userListTemp = res.data.list.map((userItem: any, index: number) => {
+        const res = await get_user_list_api()
+        if (httpIsSuccess(res.code)) {
+            const userListTemp = res.data.map((userItem: any, index: number) => {
                 return {
                     ...userItem,
                     key: index.toString()
                 }
             })
-            setNum(res.data.list.length)
+            setNum(res.data.length)
             setUserList(userListTemp)
             setLoading(false)
-        } else {
-            errorToast(res.message)
-        }
-    }
-    const getIdentifyList = async () => {
-        const res = await getIdentifyListApi();
-        if (res.code === 0) {
-            setIdentifyList(res.data)
         } else {
             errorToast(res.message)
         }
@@ -145,14 +126,14 @@ export default function UserList() {
     };
     useEffect(() => {
         getUserList()
-        getIdentifyList()
     }, [])
     return (
         <div className={`${stylePrefix}-layout`} >
             <Table
                 loading={loading}
                 className={`${stylePrefix}-table`}
-                columns={columns} dataSource={userList}
+                columns={columns} 
+                dataSource={userList}
                 pagination={{
                     current: current,
                     pageSize: 10, // 一页多少项
@@ -163,7 +144,7 @@ export default function UserList() {
             <AlterUserInfoModal
                 visible={visible}
                 setVisible={setVisible}
-                user={selectedUser}
+                userID={selectedUserID}
                 getUserList={getUserList}
                 current={current}
             />
