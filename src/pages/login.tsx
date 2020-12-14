@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
 import 'styles/pages/login.scss'
-import { successToast, errorToast, setToken, getToken } from 'components/common/utils'
-import { loginApi, getBasicUserApi } from 'http/UserApi';
+import { successToast, errorToast, setToken, getToken, httpIsSuccess } from 'components/common/utils'
+import { get_basic_user_info_api, get_verify_code_api, loginApi, login_password_api } from 'http/UserApi';
 import md5 from 'md5'
 import { useHistory } from 'react-router-dom';
-import { Checkbox, Button } from 'antd';
+import { Button } from 'antd';
 import { UserBasicConfig } from 'components/home/Header';
 import ReactSimpleVerify from 'react-simple-verify'
+import VerifyCode from 'components/login/VerifyCode';
 
 const stylePrefix = 'page-login'
 
@@ -18,42 +19,44 @@ interface LoginConfig {
 }
 
 export default function Login({ transform_user }: LoginConfig) {
-    const [isAgreeDocument, setIsAgreeDocument] = useState(false)
-    const [username, setUsername] = useState('')
+    const [phone, setPhone] = useState('')
     const [password, setPassword] = useState('')
+    const [verifyCode, setVerifyCode] = useState('')
     const [isVerify, setIsVerify] = useState(false)
+    const [verifyCodeImg, setVerifyCodeImg] = useState<string | null>(null)
     const history = useHistory()
     const verifyRef = useRef(null)
-    const [usernameError, setUsernameError] = useState('')
+    const [phoneError, setPhoneError] = useState('')
     const [passwordError, setPasswordError] = useState('')
-    const usernameReg = /^\w{6,}$/
+    const [verifyCodeError, setVerifyCodeError] = useState('')
+    const phoneReg = /^\w{6,}$/
     const passwordReg = /^\w{6,20}$/
-    const usernameErrorText = '用户名需由6位及6位以上字母或数字组成'
+    const verifyCodeReg = /^\w{6}$/
+    const phoneErrorText = '用户名需由6位及6位以上字母或数字组成'
     const passwordErrorText = '密码需由6-20位字母或数字组成'
+    const verifyCodeErrorText = '图片验证码需由6位字母或数字组成'
     const submit = async () => {
-        if (!usernameReg.test(username) || !passwordReg.test(password)) {
+        if (!phoneReg.test(phone) || !passwordReg.test(password) || !verifyCodeReg.test(verifyCode)) {
             errorToast('请按提示完成信息填入')
             return
-        }
-        if (!isAgreeDocument) {
-            errorToast('请同意服务协议');
-            return;
         }
         if (!isVerify) {
             errorToast('请完成人机验证')
             return
         }
-        const res = await loginApi({
-            username: username,
+        const res = await login_password_api({
+            phoneNumber: phone,
             password: md5(password),
-            isAdmin: true
+            verification_code: verifyCode,
+            platform: 2
         })
-        if (res.code === 0) {
+        if (httpIsSuccess(res.code)) {
             history.push('/home')
             setToken(res.data)
             successToast('登录成功')
         } else {
             errorToast(res.message);
+            initVerifyCode()
         }
     }
     // 处理输入框变化
@@ -77,19 +80,30 @@ export default function Login({ transform_user }: LoginConfig) {
             setErrorStateFunc('')
         }
     }
+    // 获取用户基本信息
     const getUserInfo = async () => {
         const token: string = getToken();
         if (token) {
-            const res = await getBasicUserApi({});
-            if (res.code === 0) {
+            const res = await get_basic_user_info_api({});
+            if (httpIsSuccess(res.code)) {
                 const userData: UserBasicConfig = res.data
                 transform_user(userData)
                 history.push('/home')
             }
         }
     }
+    // 变更验证码图片
+    const initVerifyCode = async () => {
+        const res = await get_verify_code_api();
+        if (httpIsSuccess(res.code)) {
+            setVerifyCodeImg(res.data)
+        } else {
+            errorToast(res.message)
+        }
+    }
     useEffect(() => {
         getUserInfo()
+        initVerifyCode()
     }, [])
     return (
         <div className={`${stylePrefix}-layout`}>
@@ -101,15 +115,15 @@ export default function Login({ transform_user }: LoginConfig) {
                     </div>
                 </div>
                 <div className={`${stylePrefix}-main`}>
-                    <p className={`${stylePrefix}-title`}>登录</p>
+                    <p className={`${stylePrefix}-title`}>手机密码登录</p>
                     <div className={`${stylePrefix}-content`} >
                         <input
                             type="text"
                             className={`${stylePrefix}-input`}
-                            placeholder='用户名'
-                            onChange={(e) => handleInputChange(e, setUsernameError, usernameReg, setUsername, usernameErrorText)}
+                            placeholder='手机号'
+                            onChange={(e) => handleInputChange(e, setPhoneError, phoneReg, setPhone, phoneErrorText)}
                         />
-                        <div className={`${stylePrefix}-input-error-text`}>{usernameError}</div>
+                        <div className={`${stylePrefix}-input-error-text`}>{phoneError}</div>
                         <input
                             type='password'
                             className={`${stylePrefix}-input`}
@@ -117,15 +131,18 @@ export default function Login({ transform_user }: LoginConfig) {
                             onChange={(e) => handleInputChange(e, setPasswordError, passwordReg, setPassword, passwordErrorText)}
                         />
                         <div className={`${stylePrefix}-input-error-text`}>{passwordError}</div>
+                        <VerifyCode
+                            handleInputChange={handleInputChange}
+                            verifyCodeErrorText={verifyCodeErrorText}
+                            verifyCodeReg={verifyCodeReg}
+                            setVerifyCode={setVerifyCode}
+                            setVerifyCodeError={setVerifyCodeError}
+                            verifyCodeImg={verifyCodeImg}
+                            initVerifyCode={initVerifyCode}
+                        />
                         <ReactSimpleVerify width={270} ref={verifyRef} success={() => setIsVerify(true)} />
                         <div className={`${stylePrefix}-operation-layout`}>
-                            <Checkbox
-                                onChange={() => setIsAgreeDocument(!isAgreeDocument)}
-                                className={`${stylePrefix}-checkBox`}
-                            >
-                                我已同意
-                                <a href="#">《服务协议》</a>
-                            </Checkbox>
+                            <p className={`${stylePrefix}-method`} >手机验证码登录</p>
                             <p className={`${stylePrefix}-forget-word`} >忘记密码</p>
                         </div>
                         <Button

@@ -51,3 +51,7 @@ export interface IndentifyConfig {
     id: number
     value: string
 }
+
+export const httpIsSuccess = (code: number) => {
+    return code === 0;
+}

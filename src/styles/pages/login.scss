@@ -42,7 +42,7 @@ $file-prefix: 'page-login';
 
             .#{$file-prefix}-title {
                 text-align: center;
-                margin-top: 50px;
+                margin-top: 40px;
                 font-weight: bold;
                 color: rgba($color: #000000, $alpha: 0.6);
                 font-size: 20px;
@@ -72,6 +72,7 @@ $file-prefix: 'page-login';
                 .#{$file-prefix}-input::-moz-placeholder {
                     color: #ccc;
                 }
+
                 .#{$file-prefix}-input-error-text {
                     margin-bottom: 10px;
                     color: red;
@@ -81,20 +82,20 @@ $file-prefix: 'page-login';
                 .#{$file-prefix}-operation-layout {
                     display: flex;
                     justify-content: space-between;
-                    margin-top: 30px;
+                    margin-top: 10px;
 
                     .#{$file-prefix}-forget-word {
                         color: #aaa;
                     }
 
-                    .#{$file-prefix}-checkBox {
-                        color: #aaa;
+                    .#{$file-prefix}-method {
+                        color: #00CCFF;
+                        cursor: pointer;
                     }
                 }
 
                 .#{$file-prefix}-btn {
                     width: 100%;
-                    margin-top: 30px;
                 }
             }
         }

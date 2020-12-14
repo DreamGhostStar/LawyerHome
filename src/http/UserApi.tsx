@@ -1,14 +1,12 @@
 import axios from 'axios'
+import { backIP } from 'components/common/config'
 import { httpConfig, getHeaders } from 'components/common/utils'
+import Http from './Servies'
 
 interface loginConfig {
     username: string
     password: string
     isAdmin: boolean
-}
-
-interface getBasicUserConfig {
-    userID?: number
 }
 
 interface getVerifyDetailConfig {
@@ -39,18 +37,6 @@ export const loginApi = async (data: loginConfig) => {
         method: 'PUT',
         url: `/api/user/login`,
         data: data
-    })
-
-    return res
-}
-
-// 获取用户基本信息
-export const getBasicUserApi = async (data: getBasicUserConfig) => {
-    const { data: res }: { data: httpConfig } = await axios({
-        method: 'GET',
-        url: `/api/user/basic`,
-        data: data,
-        headers: getHeaders()
     })
 
     return res
@@ -147,4 +133,30 @@ export const alterUserIdentifyApi = async (data: alterUserIdentifyConfig) => {
     })
 
     return res
+}
+
+interface ILoginPassword {
+    phoneNumber: string;
+    password: string;
+    verification_code: string;
+    platform: number;
+}
+
+interface IGetBasicUserInfo {
+    userID?: number;
+}
+
+// 获取图片验证码
+export const get_verify_code_api = async () => {
+    return await Http.request(`${backIP}/public/verificationCode/image`, {}, 'GET')
+}
+
+// 管理员修改用户昵称
+export const login_password_api = async (data: ILoginPassword) => {
+    return await Http.request(`${backIP}/login/password`, data, 'POST')
+}
+
+// 管理员修改用户昵称
+export const get_basic_user_info_api = async (data: IGetBasicUserInfo) => {
+    return await Http.request(`${backIP}/user/getBasicInfo`, data, 'GET', getHeaders())
 }

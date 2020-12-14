@@ -4,23 +4,15 @@ import logo from 'images/logo.png'
 import loadingImage from 'images/loading.gif'
 import store from 'redux/store'
 import { getToken, IconFont, removeToken, successToast, errorToast } from 'components/common/utils'
-import { getBasicUserApi } from 'http/UserApi'
 import { useHistory } from 'react-router-dom'
+import { get_basic_user_info_api } from 'http/UserApi'
 
 const stylePrefix = 'home-header'
 
 export interface UserBasicConfig {
-    avatar: string, // 头像
-    realname: string, // 真实姓名
-    identify: {
-        id: number // 身份ID（0代表未验证）
-        value: string // 身份具体值，如果未验证则返回"未验证"
-    },
-    statusID: number, // 如果用户不为医生，则传0
-    money: string, // 余额
-    postNum: string, // 帖子数量
-    likeNum: string, // 收获喜欢数量
-    collectNum: string, // 收藏药店数量
+    avatar: string; // 头像
+    name: string; // 真实姓名
+    lawyer_number: string;
 }
 
 interface HeaderConfig {
@@ -28,19 +20,17 @@ interface HeaderConfig {
         type: string;
         data: UserBasicConfig;
     }
-    user: any
 }
 
-export default function Header({ transform_user, user }: HeaderConfig) {
+export default function Header({ transform_user }: HeaderConfig) {
     const history = useHistory()
     const [avatar, setAvatar] = useState('')
     const [isMouse, setIsMouse] = useState(false)
     const getBasicUser = async () => {
         const token: string = getToken()
         if (token && !store.getState().user) {
-            const res = await getBasicUserApi({});
+            const res = await get_basic_user_info_api({});
             const tempUserData: UserBasicConfig = res.data
-            console.log(tempUserData.avatar);
             setAvatar(tempUserData.avatar)
             transform_user(tempUserData)
         }

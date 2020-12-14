@@ -14,7 +14,7 @@ const loginPage = Loadable({
 });
 
 const homePage = Loadable({
-    loader: () => import('./pages/Home'),
+    loader: () => import('./pages/home'),
 });
 
 // 前端路由
