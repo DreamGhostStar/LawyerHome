@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import 'styles/home/header.scss'
-import logo from 'images/logo.png'
-import loadingImage from 'images/loading.gif'
 import store from 'redux/store'
 import { getToken, IconFont, removeToken, successToast, errorToast } from 'components/common/utils'
 import { useHistory } from 'react-router-dom'
@@ -51,15 +49,7 @@ export default function Header({ transform_user }: HeaderConfig) {
     }, [store.getState().user])
     return (
         <div className={`${stylePrefix}-layout`}>
-            <div className={`${stylePrefix}-logo-layout`} >
-                <img
-                    src={logo}
-                    alt="logo"
-                    placeholder={loadingImage}
-                    className={`${stylePrefix}-logo`}
-                />
-                <p className={`${stylePrefix}-logo-word`}>云家医</p>
-            </div>
+            <p className={`${stylePrefix}-title`}>律政云</p>
             <div
                 className={`${stylePrefix}-user-layout`}
                 onMouseOver={() => setIsMouse(true)}

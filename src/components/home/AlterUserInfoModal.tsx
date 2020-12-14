@@ -1,8 +1,7 @@
 import { Button, Input, Modal } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { UserItemConfig } from './UserList'
 import 'styles/home/alterUserInfoModal.scss'
-import { alterUserApi, alter_user_info_api, get_user_detail_info_api, IAlterUserInfo } from 'http/UserApi'
+import { alter_user_info_api, get_user_detail_info_api, IAlterUserInfo } from 'http/UserApi'
 import { errorToast, httpIsSuccess, successToast } from 'components/common/utils'
 import Loading2 from 'components/common/Loading2'
 

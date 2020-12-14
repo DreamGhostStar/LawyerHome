@@ -7,24 +7,10 @@ $file-prefix: 'home-header';
     display: flex;
     justify-content: space-between;
 
-    .#{$file-prefix}-logo-layout {
-        display: flex;
-        justify-content: flex-start;
-
-        .#{$file-prefix}-logo {
-            width: 50px;
-            height: 50px;
-            transform: scale(1.5);
-            position: relative;
-            top: 5px;
-            margin-right: 5px;
-        }
-
-        .#{$file-prefix}-logo-word {
-            color: #fff;
-            line-height: 60px;
-            font-size: 20px;
-        }
+    .#{$file-prefix}-title {
+        color: #fff;
+        font-size: 40px;
+        line-height: 50px;
     }
 
     .#{$file-prefix}-user-layout {
