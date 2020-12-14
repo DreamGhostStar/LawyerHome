@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import 'styles/pages/login.scss'
 import { successToast, errorToast, setToken, getToken, httpIsSuccess } from 'components/common/utils'
-import { get_basic_user_info_api, get_verify_code_api, loginApi, login_password_api } from 'http/UserApi';
+import { get_basic_user_info_api, get_verify_code_api, login_password_api } from 'http/UserApi';
 import md5 from 'md5'
 import { useHistory } from 'react-router-dom';
 import { Button } from 'antd';
@@ -140,6 +140,7 @@ export default function Login({ transform_user }: LoginConfig) {
                             verifyCodeImg={verifyCodeImg}
                             initVerifyCode={initVerifyCode}
                         />
+                        <div className={`${stylePrefix}-input-error-text`}>{verifyCodeError}</div>
                         <ReactSimpleVerify width={270} ref={verifyRef} success={() => setIsVerify(true)} />
                         <div className={`${stylePrefix}-operation-layout`}>
                             <p className={`${stylePrefix}-method`} >手机验证码登录</p>
