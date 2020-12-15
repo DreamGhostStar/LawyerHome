@@ -1,0 +1,10 @@
+$file-prefix: 'page-salary';
+
+.#{$file-prefix}-layout {
+    height: 100%;
+
+    .#{$file-prefix}-main {
+        background-color: #eee;
+        padding: 20px 0px;
+    }
+}

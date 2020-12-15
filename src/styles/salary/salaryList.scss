@@ -1,0 +1,30 @@
+$file-prefix: 'salary-salaryList';
+
+.#{$file-prefix}-layout {
+    margin: 0px auto;
+    width: 1200px;
+    display: grid;
+    grid-template-columns: repeat(2, 45%);
+    grid-row-gap: 40px;
+    justify-content: space-between;
+    margin-top: 40px;
+
+    .#{$file-prefix}-salary-item-layout {
+        width: 500px;
+        border-radius: 10px;
+        box-shadow: 8px 8px 6px rgba(18, 18, 18, 0.1);
+        padding-top: 20px;
+        background-color: #fff;
+
+        .#{$file-prefix}-year {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .#{$file-prefix}-case-item {
+            padding: 10px 0px;
+            display: flex;
+            justify-content: space-around;
+        }
+    }
+}

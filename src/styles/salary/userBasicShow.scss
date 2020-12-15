@@ -1,0 +1,50 @@
+$file-prefix: 'salary-userBasicShow';
+
+.#{$file-prefix}-layout {
+    width: 600px;
+    height: 200px;
+    margin: 0 auto;
+    background-color: #fff;
+    margin-top: 40px;
+    border-radius: 10px;
+    box-shadow: 8px 8px 6px rgba(18, 18, 18, 0.1);
+
+    .#{$file-prefix}-main {
+        display: flex;
+        justify-content: flex-start;
+
+        .#{$file-prefix}-name-avatar-layout {
+            margin-left: 50px;
+            margin-top: 20px;
+            padding-right: 100px;
+            padding-top: 10px;
+            border-right: 4px #eee solid;
+
+            .#{$file-prefix}-avatar {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+            }
+
+            .#{$file-prefix}-name {
+                margin-top: 10px;
+                width: 100px;
+                text-align: center;
+                font-weight: bold;
+            }
+        }
+
+        .#{$file-prefix}-other-info {
+            margin-left: 100px;
+            margin-top: 20px;
+
+            .#{$file-prefix}-title {
+                font-weight: bold;
+            }
+
+            .#{$file-prefix}-value {
+                color: #aaa;
+            }
+        }
+    }
+}

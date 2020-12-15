@@ -15,11 +15,11 @@ interface AlterUserInfoModalConfig {
     current: number
 }
 
-interface UserDetailConfig {
-    name: string | null;
-    phoneNumber: string | null;
-    weixin_number: string | null;
-    lawyer_number: string | null;
+export interface UserDetailConfig {
+    name?: string;
+    phoneNumber?: string;
+    weixin_number?: string;
+    lawyer_number?: string;
 }
 
 export default function AlterUserInfoModal({ visible, setVisible, userID, getUserList, current }: AlterUserInfoModalConfig) {

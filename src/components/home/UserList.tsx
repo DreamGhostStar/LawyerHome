@@ -2,16 +2,18 @@ import React, { useEffect, useState } from 'react'
 import 'styles/home/userList.scss'
 import { Table, Button, Select, Space } from 'antd';
 import { AuthorConfig, IndentifyConfig, errorToast, successToast, httpIsSuccess } from 'components/common/utils';
-import { resetPasswordApi, get_user_list_api, alter_user_identify_api, reset_user_password_api } from 'http/UserApi';
-import { TablePaginationConfig } from 'antd/lib/table';
+import { get_user_list_api, alter_user_identify_api, reset_user_password_api } from 'http/UserApi';
+import { ColumnsType, TablePaginationConfig } from 'antd/lib/table';
 import AlterUserInfoModal from './AlterUserInfoModal';
 import md5 from 'md5';
 import indentifyList from 'static/identify.json'
+import { useHistory } from 'react-router-dom';
 
 const stylePrefix = 'home-userList'
 const { Option } = Select;
 
 export interface UserItemConfig {
+    id: number;
     key: string
     isMy: boolean
     avatar: string,
@@ -24,8 +26,9 @@ export default function UserList() {
     const [userList, setUserList] = useState<UserItemConfig[]>([])
     const [current, setCurrent] = useState(1) // 当前page
     const [visible, setVisible] = useState(false)
-    const [selectedUserID, setSelectedUserID] = useState<number|null>(null)
+    const [selectedUserID, setSelectedUserID] = useState<number | null>(null)
     const [num, setNum] = useState(0)
+    const history = useHistory()
     // 修改用户身份
     const handleChange = async (userID: number, identifyID: number) => {
         const res = await alter_user_identify_api({
@@ -46,7 +49,10 @@ export default function UserList() {
         setSelectedUserID(userID)
         setVisible(true)
     }
-    const columns = [
+    const gotoSalaryPage = (userID: number) => {
+        history.push(`/salary/${userID}`);
+    }
+    const columns: ColumnsType<UserItemConfig> = [
         {
             title: '姓名',
             dataIndex: 'author',
@@ -72,7 +78,7 @@ export default function UserList() {
                     disabled={record.isMy}
                     defaultValue={indentify.id}
                     style={{ width: 120 }}
-                    onChange={(identifyID) => handleChange(parseInt(record.key), identifyID)}
+                    onChange={(identifyID) => handleChange(record.id, identifyID)}
                 >
                     {
                         indentifyList.map((identifyItem, index) => {
@@ -81,6 +87,7 @@ export default function UserList() {
                     }
                 </Select>
             ),
+            align: 'center'
         },
         {
             title: '操作',
@@ -88,18 +95,23 @@ export default function UserList() {
             render: (text: UserItemConfig) => {
                 return (
                     <Space size='large' >
-                        <Button type="primary" onClick={() => openModal(parseInt(text.key))} >修改</Button>
-                        {
-                            <Button
-                                type="primary"
-                                onClick={() => resetPassword(parseInt(text.key))}
-                            >
-                                重置密码
-                            </Button>
-                        }
+                        <Button
+                            type="primary"
+                            onClick={() => openModal(text.id)}
+                        >修改</Button>
+                        <Button
+                            type="primary"
+                            onClick={() => resetPassword(text.id)}
+                        >
+                            重置密码
+                        </Button>
+                        <Button
+                            onClick={() => gotoSalaryPage(text.id)}
+                        >查看收入</Button>
                     </Space>
                 )
             },
+            align: 'center'
         },
     ];
     const getUserList = async () => {
@@ -132,7 +144,7 @@ export default function UserList() {
             <Table
                 loading={loading}
                 className={`${stylePrefix}-table`}
-                columns={columns} 
+                columns={columns}
                 dataSource={userList}
                 pagination={{
                     current: current,
