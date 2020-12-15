@@ -31,8 +31,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "cross-env CI=true",
-    "eject": "react-scripts eject",
-    "precommit": "yarn build && yarn test"
+    "eject": "react-scripts eject"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn build && yarn test"
+    }
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -56,6 +60,8 @@
     "@types/react-loadable": "^5.5.3",
     "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.5",
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "husky": "^4.3.6",
+    "lint-staged": "^10.5.3"
   }
 }
