@@ -4,8 +4,6 @@ node_js:
 cache:
   directories:
   - node_modules
-install:
-- npm install
 # script:
 #   - npm run build # 在推送到仓库前，先打包
 branches:
