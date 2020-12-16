@@ -8,6 +8,7 @@ import AlterUserInfoModal from './AlterUserInfoModal';
 import md5 from 'md5';
 import indentifyList from 'static/identify.json'
 import { useHistory } from 'react-router-dom';
+import AddUserInfoModel from './AddUserInfoModel';
 
 const stylePrefix = 'home-userList'
 const { Option } = Select;
@@ -25,7 +26,8 @@ export default function UserList() {
     const [loading, setLoading] = useState(false)
     const [userList, setUserList] = useState<UserItemConfig[]>([])
     const [current, setCurrent] = useState(1) // 当前page
-    const [visible, setVisible] = useState(false)
+    const [visible, setVisible] = useState(false) // 修改用户信息visible
+    const [addVisible, setAddVisible] = useState(false) // 增加用户信息visible
     const [selectedUserID, setSelectedUserID] = useState<number | null>(null)
     const [num, setNum] = useState(0)
     const history = useHistory()
@@ -141,6 +143,13 @@ export default function UserList() {
     }, [])
     return (
         <div className={`${stylePrefix}-layout`} >
+            <div className={`${stylePrefix}-header`}>
+                <p>
+                    <span className={`${stylePrefix}-title`} >用户总数：</span>
+                    <span>{userList.length}</span>
+                </p>
+                <Button onClick={() => setAddVisible(true)} type="primary">增加账号</Button>
+            </div>
             <Table
                 loading={loading}
                 className={`${stylePrefix}-table`}
@@ -159,6 +168,10 @@ export default function UserList() {
                 userID={selectedUserID}
                 getUserList={getUserList}
                 current={current}
+            />
+            <AddUserInfoModel
+                visible={addVisible}
+                setVisible={setAddVisible}
             />
         </div>
     )

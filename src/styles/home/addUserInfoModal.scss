@@ -1,0 +1,52 @@
+$file-prefix: 'home-addUserModel';
+
+.#{$file-prefix}-radio-layout {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.#{$file-prefix}-input {
+    margin-bottom: 20px;
+}
+
+.#{$file-prefix}-datatime-layout {
+    display: flex;
+    justify-content: flex-start;
+
+    .#{$file-prefix}-datatime-title {
+        line-height: 35px;
+        margin-right: 10px;
+    }
+
+    .#{$file-prefix}-datatime-main {
+        height: 35px;
+    }
+}
+
+.#{$file-prefix}-avatar-layout {
+    display: flex;
+    justify-content: flex-start;
+
+    .#{$file-prefix}-avatar-title {
+        line-height: 200px;
+        margin-right: 40px;
+    }
+
+    .#{$file-prefix}-avatar-main {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background-color: #eee;
+        position: relative;
+
+        .#{$file-prefix}-avatar-icon {
+            font-size: 40px;
+            position: absolute;
+            left: 50%;
+            margin-left: -20px;
+            top: 50%;
+            margin-top: -20px;
+            color: #fff;
+        }
+    }
+}

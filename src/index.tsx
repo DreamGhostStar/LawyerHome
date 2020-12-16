@@ -3,9 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import Entry from 'Entry';
+import 'moment/locale/zh-cn';
+import locale from 'antd/lib/locale/zh_CN';
+import { ConfigProvider } from 'antd';
 
 ReactDOM.render(
-  <Entry />,
+  <ConfigProvider locale={locale}>
+    <Entry />
+  </ConfigProvider>,
   document.getElementById('root')
 );
 

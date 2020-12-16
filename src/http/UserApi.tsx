@@ -161,10 +161,21 @@ interface IGetDetailUserInfo {
 }
 
 export interface IAlterUserInfo {
-    name: string ;
-    phoneNumber: string ;
-    weixin_number: string ;
-    lawyer_number: string ;
+    name: string;
+    phoneNumber: string;
+    weixin_number: string;
+    lawyer_number: string;
+}
+
+interface IAddUser {
+    identify: string;
+    lawyerNumber: string;
+    identifyNumber: string;
+    name: string;
+    avatar: string;
+    qualificationsNumber: string;
+    phone: string;
+    startTime: string;
 }
 
 // 获取图片验证码
@@ -205,4 +216,14 @@ export const get_user_detail_info_api = async (data: IGetDetailUserInfo) => {
 // 修改用户信息
 export const alter_user_info_api = async (data: IAlterUserInfo) => {
     return await Http.request(`${testIP}/admin/user`, data, 'PUT', getHeaders())
+}
+
+// 上传文件
+export const upload_file_api = async (data: FormData) => {
+    return await Http.request(`${backIP}/public/upload`, data, 'POST', getHeaders())
+}
+
+// 生成新账号
+export const add_new_user_api = async (data: IAddUser) => {
+    return await Http.request(`${testIP}/admin/user`, data, 'POST', getHeaders())
 }
