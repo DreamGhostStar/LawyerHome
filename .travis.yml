@@ -6,8 +6,12 @@ cache:
   - node_modules
 install:
 - npm install
-# script:
-#   - npm run build # 在推送到仓库前，先打包
+script:
+  - yarn build # 在推送到仓库前，先打包
+after_script:
+  - git add .
+  - git commit
+  - git push upload master
 branches:
   only:
   - master
