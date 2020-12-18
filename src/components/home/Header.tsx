@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import 'styles/home/header.scss'
 import store from 'redux/store'
-import { getToken, IconFont, removeToken, successToast, errorToast } from 'components/common/utils'
+import { getToken, removeToken, successToast, errorToast } from 'components/common/utils'
 import { useHistory } from 'react-router-dom'
 import { get_basic_user_info_api } from 'http/UserApi'
+import { IconFont } from 'components/common/config'
 
 const stylePrefix = 'home-header'
 

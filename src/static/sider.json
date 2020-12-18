@@ -1,14 +1,10 @@
 [
     {
-        "icon": "icon-geren",
+        "icon": "icongeren",
         "title": "用户管理"
     },
     {
-        "icon": "icon-shenhe",
-        "title": "用户审核"
-    },
-    {
-        "icon": "icon-wrong",
-        "title": "错误上报"
+        "icon": "iconanjian",
+        "title": "案件管理"
     }
 ]

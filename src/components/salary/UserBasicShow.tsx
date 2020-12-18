@@ -1,6 +1,6 @@
 import Loading2 from 'components/common/Loading2';
 import { errorToast, httpIsSuccess } from 'components/common/utils';
-import { UserDetailConfig } from 'components/home/AlterUserInfoModal';
+import { UserDetailConfig } from 'components/home/user/AlterUserInfoModal';
 import { get_user_info_in_salary_api } from 'http/Salary';
 import React, { useEffect, useState } from 'react'
 import 'styles/salary/userBasicShow.scss'

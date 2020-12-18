@@ -1,0 +1,25 @@
+$file-prefix: 'common-tag';
+
+$stars: (
+  (textColor: white, backColor: green),
+  (textColor: white, backColor: blue),
+  (textColor: white, backColor: red),
+  (textColor: orange, backColor: yellow),
+  (textColor: white, backColor: orange),
+  (textColor: white, backColor: purple),
+);
+
+@for $i from 1 through length($stars) {
+  $item: nth($stars, $i);
+  
+  .#{$file-prefix}-#{map-get($item, backColor)} {
+    color: map-get($item, textColor);
+    background-color: map-get($item, backColor);
+  }
+}
+
+.#{$file-prefix}-layout {
+    padding: 5px 15px;
+    border-radius: 20px;
+    display: inline-block;
+}

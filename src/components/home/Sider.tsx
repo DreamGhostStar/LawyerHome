@@ -1,7 +1,7 @@
 import React from 'react'
 import 'styles/home/sider.scss'
 import siderData from 'static/sider.json'
-import { IconFont } from 'components/common/utils'
+import { IconFont } from 'components/common/config'
 
 const stylePrefix = 'home-sider'
 

@@ -15,10 +15,10 @@ const { Option } = Select;
 
 export interface UserItemConfig {
     id: number;
-    key: string
-    isMy: boolean
-    avatar: string,
-    name: string,
+    key: string;
+    isMy: boolean;
+    avatar: string;
+    name: string;
     identify: IndentifyConfig;
 }
 

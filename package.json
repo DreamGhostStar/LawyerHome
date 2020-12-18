@@ -12,6 +12,7 @@
     "@types/react-dom": "^16.9.0",
     "antd": "^4.6.5",
     "axios": "^0.20.0",
+    "classnames": "^2.2.6",
     "http-proxy-middleware": "^1.0.5",
     "md5": "^2.3.0",
     "moment": "^2.29.1",
@@ -51,6 +52,7 @@
   },
   "homepage": "./",
   "devDependencies": {
+    "@types/classnames": "^2.2.11",
     "@types/md5": "^2.2.0",
     "@types/react-cookies": "^0.1.0",
     "@types/react-loadable": "^5.5.3",

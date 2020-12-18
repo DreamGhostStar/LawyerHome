@@ -5,5 +5,5 @@ export const backIP = 'api'
 export const testIP = 'https://mock.yonyoucloud.com/mock/16533/api'
 
 export const IconFont = createFromIconfontCN({
-    scriptUrl: 'http://at.alicdn.com/t/font_2274798_999ib79sft.js',
+    scriptUrl: 'http://at.alicdn.com/t/font_2274798_m840qtc2j2e.js',
 });

@@ -1,6 +1,7 @@
 import { Button, DatePicker, Input, Radio } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
-import { errorToast, httpIsSuccess, IconFont, successToast } from 'components/common/utils'
+import { IconFont } from 'components/common/config'
+import { errorToast, httpIsSuccess, successToast } from 'components/common/utils'
 import { add_new_user_api, upload_file_api } from 'http/UserApi'
 import React, { ChangeEvent, useRef, useState } from 'react'
 import 'styles/home/addUserInfoModal.scss'

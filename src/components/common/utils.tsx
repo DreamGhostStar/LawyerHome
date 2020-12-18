@@ -1,10 +1,5 @@
-import { createFromIconfontCN } from '@ant-design/icons';
 import { message } from 'antd';
 import cookies from 'react-cookies'
-
-export const IconFont = createFromIconfontCN({
-    scriptUrl: 'http://at.alicdn.com/t/font_2103484_f8ge73a2w6v.js',
-});
 
 export interface httpConfig {
     code: number
