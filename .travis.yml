@@ -6,12 +6,12 @@ cache:
   - node_modules
 install:
 - npm install
-# script:
-#   - yarn build # 在推送到仓库前，先打包
-# after_script:
-#   - git add .
-#   - git commit -m "自动化构建上传"
-#   - git push upload master
+script:
+  - yarn build # 在推送到仓库前，先打包
+after_script:
+  - git add .
+  - git commit -m "自动化构建上传"
+  - git push upload master
 branches:
   only:
   - master
@@ -20,11 +20,11 @@ before_install:
 addons:
   ssh_known_hosts: 
   - 106.14.174.206
-before_success:
-  - yarn build # 在推送到仓库前，先打包
-  - git add .
-  - git commit -m "自动化构建上传"
-  - git push upload master
+# before_success:
+#   - yarn build # 在推送到仓库前，先打包
+#   - git add .
+#   - git commit -m "自动化构建上传"
+#   - git push upload master
 after_success:
   - chmod 600 ~/.ssh/id_rsa
   - ssh root@106.14.174.206 -o StrictHostKeyChecking=no 'cd /project && rm -rf /project/LawyerHome && git clone https://github.com.cnpmjs.org/DreamGhostStar/LawyerHome.git && cd LawyerHome/ && /usr/local/nginx/sbin/nginx -s reload'   #使用ssh连接服务器
