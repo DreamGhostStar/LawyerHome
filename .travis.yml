@@ -17,3 +17,4 @@ addons:
 after_success:
   - chmod 600 ~/.ssh/id_rsa
   - ssh root@106.14.174.206 -o StrictHostKeyChecking=no 'cd /project && rm -rf /project/LawyerHome && git clone https://github.com.cnpmjs.org/DreamGhostStar/LawyerHome.git && cd LawyerHome/ && /usr/local/nginx/sbin/nginx -s reload'   #使用ssh连接服务器
+  
