@@ -33,7 +33,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "cross-env CI=true",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prepublishOnly": "yarn test && yarn build"
   },
   "eslintConfig": {
     "extends": "react-app"
