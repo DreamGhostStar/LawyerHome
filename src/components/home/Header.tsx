@@ -39,7 +39,7 @@ export default function Header({ transform_user, title }: HeaderConfig) {
             errorToast('请先登录')
             history.push('/login')
         }
-    }, [])
+    }, [history, transform_user])
     const exitLogin = () => {
         removeToken()
         successToast('退出登录成功')

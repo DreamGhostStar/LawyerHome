@@ -31,7 +31,7 @@ export default function SalaryList({ userID }: SalaryListConfig) {
         } else {
             errorToast(res.message)
         }
-    }, [])
+    }, [userID])
     useEffect(() => {
         getSalaryList()
     }, [userID, getSalaryList])

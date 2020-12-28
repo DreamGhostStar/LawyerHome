@@ -29,6 +29,7 @@ export default function AddUserInfoModel({ visible, setVisible }: AddUserInfoMod
     }
     const handleOk = async () => {
         if (img) {
+            setLoading(true)
             const res = await add_new_user_api({
                 identify,
                 lawyerNumber,
@@ -46,6 +47,7 @@ export default function AddUserInfoModel({ visible, setVisible }: AddUserInfoMod
             } else {
                 errorToast(res.message)
             }
+            setLoading(true)
         }
     }
     // 清除数据

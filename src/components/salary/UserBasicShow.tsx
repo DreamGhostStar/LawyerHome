@@ -29,7 +29,7 @@ export default function UserBasicShow({ userID }: UserBasicShowConfig) {
             errorToast(res.message)
         }
         setLoading(false)
-    }, [])
+    }, [userID])
     useEffect(() => {
         init()
     }, [userID, init])

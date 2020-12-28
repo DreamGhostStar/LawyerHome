@@ -91,7 +91,7 @@ export default function Login({ transform_user }: LoginConfig) {
                 history.push('/home')
             }
         }
-    }, [])
+    }, [transform_user, history])
     // 变更验证码图片
     const initVerifyCode = useCallback(async () => {
         const res = await get_verify_code_api();

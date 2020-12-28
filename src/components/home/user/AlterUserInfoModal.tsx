@@ -58,7 +58,7 @@ export default function AlterUserInfoModal({ visible, setVisible, userID, getUse
                 errorToast(res.message)
             }
         }
-    }, [])
+    }, [userID])
     const handleCancel = () => {
         setVisible(false)
     }
