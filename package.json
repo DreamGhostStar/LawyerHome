@@ -34,7 +34,7 @@
     "build": "react-scripts build",
     "test": "cross-env CI=true",
     "eject": "react-scripts eject",
-    "publish-build": "git add . && git commit -m '自动化构建' && git push upload build"
+    "publish-build": "yarn build && git add . && git commit -m '自动化构建' && git push upload build"
   },
   "eslintConfig": {
     "extends": "react-app"
