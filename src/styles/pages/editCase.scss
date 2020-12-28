@@ -1,0 +1,57 @@
+$file-prefix: 'page-editCase';
+
+.#{$file-prefix}-layout {
+    height: 100%;
+    background-color: #eee;
+    overflow-y: scroll;
+
+    .#{$file-prefix}-main {
+        background-color: #fff;
+        box-shadow: 8px 8px 6px rgba(18, 18, 18, 0.1);
+        width: 1200px;
+        margin: 60px auto;
+        border-radius: 10px;
+        padding-bottom: 40px;
+
+        .#{$file-prefix}-input-layout {
+            margin: 0px 200px;
+            padding-top: 40px;
+            display: flex;
+            justify-content: flex-start;
+
+            .#{$file-prefix}-title {
+                display: inline-block;
+                line-height: 40px;
+                font-weight: bold;
+                font-size: 18px;
+                width: 100px;
+                text-align: justify;
+                text-align-last: justify;
+            }
+
+            .#{$file-prefix}-symbol {
+                line-height: 40px;
+                font-weight: bold;
+                font-size: 18px;
+            }
+
+            .#{$file-prefix}-input {
+                margin-left: 80px;
+                width: 600px;
+                height: 40px;
+            }
+
+            .#{$file-prefix}-select {
+                margin-left: 80px;
+                width: 120px;
+                height: 40px;
+            }
+
+            .#{$file-prefix}-autoComplete {
+                margin-left: 80px;
+                width: 200px;
+                height: 40px;
+            }
+        }
+    }
+}

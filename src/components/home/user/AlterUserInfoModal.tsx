@@ -64,7 +64,7 @@ export default function AlterUserInfoModal({ visible, setVisible, userID, getUse
     }
     useEffect(() => {
         getUserDetail()
-    }, [userID])
+    }, [userID, getUserDetail])
     return (
         <Modal
             visible={visible}

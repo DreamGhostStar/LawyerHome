@@ -21,6 +21,10 @@ const salaryPage = Loadable({
     loader: () => import('./pages/salary'),
 });
 
+const editCasePage = Loadable({
+    loader: () => import('./pages/editCase'),
+});
+
 // 前端路由
 export default class Entry extends Component {
     render() {
@@ -30,6 +34,8 @@ export default class Entry extends Component {
                     <Switch>
                         <Route path='/home' component={homePage} />
                         <Route path='/salary/:id' component={salaryPage} />
+                        <Route path='/case' component={editCasePage} exact/>
+                        <Route path='/case/:id' component={editCasePage} />
                         <Provider store={store} >
                             <Route path='/login' component={loginPage} />
                         </Provider>

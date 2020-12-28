@@ -1,0 +1,18 @@
+[
+    {
+        "id": "civil",
+        "value": "民事"
+    },
+    {
+        "id": "criminal",
+        "value": "刑事"
+    },
+    {
+        "id": "administrative",
+        "value": "行政"
+    },
+    {
+        "id": "non_lawsuit",
+        "value": "非诉讼业务"
+    }
+]

@@ -1,0 +1,41 @@
+$file-prefix: 'lawyer-assistInput';
+
+.#{$file-prefix}-title {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 24px;
+    padding-top: 20px;
+}
+
+.#{$file-prefix}-input-layout {
+    margin: 0px 200px;
+    display: flex;
+    justify-content: space-between;
+
+    .#{$file-prefix}-autoComplete {
+        width: 80%;
+    }
+}
+
+.#{$file-prefix}-user-show-layout {
+    margin: 40px 200px;
+
+    .#{$file-prefix}-user-show {
+        margin: 0px 100px;
+        padding: 10px;
+        border-top: 2px #ddd solid;
+        display: flex;
+        justify-content: space-around;
+
+        .#{$file-prefix}-value {
+            margin: 0px;
+        }
+    }
+
+    .#{$file-prefix}-user-show:last-child {
+        border-bottom: 2px #ddd solid;
+    }
+}

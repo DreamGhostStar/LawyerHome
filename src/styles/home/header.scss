@@ -7,11 +7,17 @@ $file-prefix: 'home-header';
     display: flex;
     justify-content: space-between;
 
-    .#{$file-prefix}-title {
+    .#{$file-prefix}-logo {
         color: #fff;
         font-size: 40px;
         line-height: 50px;
         cursor: pointer;
+    }
+
+    .#{$file-prefix}-title {
+        color: #aaa;
+        font-size: 30px;
+        line-height: 50px;
     }
 
     .#{$file-prefix}-user-layout {

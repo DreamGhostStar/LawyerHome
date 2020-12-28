@@ -1,0 +1,26 @@
+[
+    {
+        "id": "invest",
+        "value": "侦查"
+    },
+    {
+        "id": "prosecute",
+        "value": "起诉"
+    },
+    {
+        "id": "first_instance",
+        "value": "一审"
+    },
+    {
+        "id": "second_instance",
+        "value": "二审"
+    },
+    {
+        "id": "review",
+        "value": "再审"
+    },
+    {
+        "id": "arbitrament",
+        "value": "仲裁"
+    }
+]

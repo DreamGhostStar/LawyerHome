@@ -34,7 +34,7 @@ export default function SalaryList({ userID }: SalaryListConfig) {
     }
     useEffect(() => {
         getSalaryList()
-    }, [userID])
+    }, [userID, getSalaryList])
     return (
         <div className={`${stylePrefix}-layout`} >
             {

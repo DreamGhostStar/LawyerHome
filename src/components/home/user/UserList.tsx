@@ -140,7 +140,7 @@ export default function UserList() {
     };
     useEffect(() => {
         getUserList()
-    }, [])
+    }, [getUserList])
     return (
         <div className={`${stylePrefix}-layout`} >
             <div className={`${stylePrefix}-header`}>

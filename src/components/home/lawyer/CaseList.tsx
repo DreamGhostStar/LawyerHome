@@ -6,8 +6,8 @@ import { ColumnsType, TablePaginationConfig } from 'antd/lib/table';
 import { useHistory } from 'react-router-dom';
 import { get_case_list_api } from 'http/Case';
 import Tag from 'components/common/Tag';
-import caseTypeMap from 'static/caseTypeMap.json'
-import caseTrialMap from 'static/caseTrialMap.json'
+import caseTypeMap from 'static/caseTypeTagMap.json'
+import caseTrialMap from 'static/caseTrialTagMap.json'
 
 const stylePrefix = 'home-userList'
 
@@ -29,8 +29,16 @@ export default function CaseList() {
     const [alterVisible, setAlterVisible] = useState(false)
     const [selectCaseID, setSelectCaseID] = useState<number | null>(null)
     const history = useHistory()
-    const openModal = (id: number, type: ModalType)=>{
+    const openModal = (id: number | null, type: ModalType) => {
+        if (id === null) {
+            history.push('/case')
+            return;
+        }
 
+        if (type === 'alter') {
+            history.push(`/case/${id}`)
+            return;
+        }
     }
     const columns: ColumnsType<CaseItemConfig> = [
         {
@@ -82,7 +90,7 @@ export default function CaseList() {
                         <Button
                             type="primary"
                             danger
-                            // onClick={() => gotoSalaryPage(text.id)}
+                        // onClick={() => gotoSalaryPage(text.id)}
                         >删除</Button>
                     </Space>
                 )
@@ -114,7 +122,7 @@ export default function CaseList() {
     };
     useEffect(() => {
         getCaseList()
-    }, [])
+    }, [getCaseList])
     return (
         <div className={`${stylePrefix}-layout`} >
             <div className={`${stylePrefix}-header`}>
@@ -122,7 +130,7 @@ export default function CaseList() {
                     <span className={`${stylePrefix}-title`} >案件总数：</span>
                     <span>{caseList.length}</span>
                 </p>
-                <Button onClick={() => { }} type="primary">增加案件</Button>
+                <Button onClick={() => openModal(null, 'add')} type="primary">增加案件</Button>
             </div>
             <Table
                 loading={loading}

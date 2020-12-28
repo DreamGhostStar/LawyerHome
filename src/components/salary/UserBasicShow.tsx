@@ -32,7 +32,7 @@ export default function UserBasicShow({ userID }: UserBasicShowConfig) {
     }
     useEffect(() => {
         init()
-    }, [userID])
+    }, [userID, init])
     const buildOtherInfoItem = (key: string, value: string) => {
         return <p>
             <span className={`${stylePrefix}-title`} >{key}：</span>

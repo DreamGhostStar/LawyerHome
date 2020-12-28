@@ -46,6 +46,10 @@ interface IAddUser {
     startTime: string;
 }
 
+interface ISearchUser {
+    value: string;
+}
+
 // 获取图片验证码
 export const get_verify_code_api = async () => {
     return await Http.request(`${backIP}/public/verificationCode/image`, {}, 'GET')
@@ -94,4 +98,9 @@ export const upload_file_api = async (data: FormData) => {
 // 生成新账号
 export const add_new_user_api = async (data: IAddUser) => {
     return await Http.request(`${testIP}/admin/user`, data, 'POST', getHeaders())
+}
+
+// 查找数据库用户
+export const search_user_list_api = async (data: ISearchUser) => {
+    return await Http.request(`${testIP}/admin/user/tip`, data, 'GET', getHeaders())
 }

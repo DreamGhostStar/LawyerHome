@@ -18,10 +18,11 @@ interface HeaderConfig {
     transform_user: (user: UserBasicConfig) => {
         type: string;
         data: UserBasicConfig;
-    }
+    };
+    title?: string;
 }
 
-export default function Header({ transform_user }: HeaderConfig) {
+export default function Header({ transform_user, title }: HeaderConfig) {
     const history = useHistory()
     const [avatar, setAvatar] = useState(store.getState().user?.avatar)
     const [isMouse, setIsMouse] = useState(false)
@@ -50,14 +51,17 @@ export default function Header({ transform_user }: HeaderConfig) {
     }
 
     useEffect(() => {
-        store.subscribe(()=>{
+        store.subscribe(() => {
             getBasicUser();
         })
         getBasicUser();
-    }, [])
+    }, [getBasicUser])
     return (
         <div className={`${stylePrefix}-layout`}>
-            <p className={`${stylePrefix}-title`} onClick={gotoHome}>律政云</p>
+            <p className={`${stylePrefix}-logo`} onClick={gotoHome}>律政云</p>
+            {
+                title && <p className={`${stylePrefix}-title`}>{title}</p>
+            }
             <div
                 className={`${stylePrefix}-user-layout`}
                 onMouseOver={() => setIsMouse(true)}

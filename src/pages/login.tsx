@@ -104,7 +104,7 @@ export default function Login({ transform_user }: LoginConfig) {
     useEffect(() => {
         getUserInfo()
         initVerifyCode()
-    }, [])
+    }, [getUserInfo, initVerifyCode])
     return (
         <div className={`${stylePrefix}-layout`}>
             <div className={`${stylePrefix}-main-layout`}>
