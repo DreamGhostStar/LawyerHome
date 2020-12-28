@@ -7,6 +7,7 @@ cache:
 install:
 - npm install
 script:
+  - yarn eslint-fix
   - yarn build # 在推送到仓库前，先打包
 after_script:
   - git add .

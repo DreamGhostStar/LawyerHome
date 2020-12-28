@@ -34,7 +34,7 @@
     "build": "react-scripts build",
     "test": "cross-env CI=true",
     "eject": "react-scripts eject",
-    "prepublishOnly": "yarn test && yarn build"
+    "eslint-fix": "eslint --fix ./src"
   },
   "eslintConfig": {
     "extends": "react-app"
