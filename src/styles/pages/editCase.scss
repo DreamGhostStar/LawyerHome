@@ -52,6 +52,17 @@ $file-prefix: 'page-editCase';
                 width: 200px;
                 height: 40px;
             }
+
+            .#{$file-prefix}-couter-step {
+                margin-left: 80px;
+                margin-top: 10px;
+            }
         }
+    }
+
+    .#{$file-prefix}-submit-layout {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 40px;
     }
 }

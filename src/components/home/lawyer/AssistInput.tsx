@@ -1,7 +1,8 @@
 import { AutoComplete, Button } from 'antd'
 import { errorToast, httpIsSuccess } from 'components/common/utils'
-import useThrottle from 'hooks/useThrottle'
+import UseThrottle from 'hooks/useThrottle'
 import { search_user_list_api } from 'http/UserApi'
+import { assiantConfig } from 'pages/editCase'
 import React, { useState } from 'react'
 import 'styles/lawyer/assistInput.scss'
 import CouterStep from './CouterStep'
@@ -10,20 +11,18 @@ interface OptionConfig {
     id: string;
     value: string;
 }
-interface assiantConfig {
-    id: string;
-    username: string;
-    scale: number;
+interface AssistInputConfig {
+    assistIDList: assiantConfig[];
+    setAssistIDList: React.Dispatch<React.SetStateAction<assiantConfig[]>>;
 }
 
-export default function AssistInput() {
+export default function AssistInput({ assistIDList, setAssistIDList }: AssistInputConfig) {
     const [assistValue, setAssistValue] = useState('')
-    const [assistIDList, setAssistIDList] = useState<assiantConfig[]>([]) // 协办人选中的ID列表
     const [assistOption, setaAssistOption] = useState<OptionConfig[]>([]) // 协办人选项
     // 当输入的值发生改变，则向后端发起请求符合输入条件的用户列表
-    const onSearch = async (searchText: string) => {
-        if (!searchText) return
-        const res = await search_user_list_api({ value: searchText });
+    const onSearch = async (value: string) => {
+        if (!value) return
+        const res = await search_user_list_api({ value });
         if (httpIsSuccess(res.code)) {
             setaAssistOption(res.data)
         } else {
@@ -38,7 +37,7 @@ export default function AssistInput() {
                 // 说明列表中肯定会有该用户ID，则不予添加并提示当前正在使用的用户
                 let isExist = false; // 是否存在
                 assistIDList.forEach(assist => {
-                    if (assist.id === item.id) {
+                    if (assist.id === parseInt(item.id)) {
                         isExist = true
                         return
                     }
@@ -47,7 +46,7 @@ export default function AssistInput() {
                     errorToast('该用户已添加，请检查')
                 } else {
                     setAssistIDList([...assistIDList, {
-                        id: item.id,
+                        id: parseInt(item.id),
                         username: item.value,
                         scale: 0
                     }])
@@ -72,7 +71,7 @@ export default function AssistInput() {
         setAssistIDList(res)
     }
     // 节流模块
-    useThrottle(onSearch, 0.5 * 1000, assistValue)()
+    UseThrottle(onSearch, 0.5 * 1000)(assistValue)
 
     return (
         <>

@@ -50,3 +50,7 @@ export interface IndentifyConfig {
 export const httpIsSuccess = (code: number) => {
     return code === 0;
 }
+
+export const isNull = (value: any) => {
+    return value === null;
+}

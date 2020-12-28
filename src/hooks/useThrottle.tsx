@@ -1,17 +1,16 @@
 import { useCallback } from "react"
 
-export default function useThrottle(
-    func: (searchText: string) => Promise<void>,
-    delay: number,
-    searchText: string
+export default function UseThrottle(
+    func: any,
+    delay: number
 ) {
     let timer: NodeJS.Timeout | null = null
-    return useCallback(function f() {
+    return useCallback((...args) => {
         if (!timer) {
             timer = setTimeout(() => {
                 timer = null
             }, delay)
-            func(searchText)
+            func(...args)
         }
-    }, [])
+    }, [timer])
 }

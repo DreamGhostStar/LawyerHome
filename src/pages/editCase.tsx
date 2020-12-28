@@ -1,15 +1,18 @@
-import { AutoComplete, Input, Select } from 'antd'
+import { AutoComplete, Button, Input, Select } from 'antd'
 import HeaderContainer from 'containers/HeaderContainer'
 import React, { useState } from 'react'
 import { Provider } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import store from 'redux/store'
 import 'styles/pages/editCase.scss'
 import StaticCaseTrial from 'static/caseTrial.json'
 import StaticCaseType from 'static/caseType.json'
 import { search_user_list_api } from 'http/UserApi'
-import { errorToast, httpIsSuccess } from 'components/common/utils'
+import { errorToast, httpIsSuccess, successToast } from 'components/common/utils'
 import AssistInput from 'components/home/lawyer/AssistInput'
+import CouterStep from 'components/home/lawyer/CouterStep'
+import { add_case_api } from 'http/Case'
+import UseThrottle from 'hooks/useThrottle'
 const { Option } = Select;
 const { TextArea } = Input;
 const stylePrefix = 'page-editCase'
@@ -20,9 +23,15 @@ interface OptionConfig {
     id: string;
     value: string;
 }
+export interface assiantConfig {
+    id: number;
+    username: string;
+    scale: number;
+}
 
 export default function EditCase() {
     const params = useParams<IParams>()
+    const history = useHistory()
     const isAdd = params.id === undefined
     const [caseNumber, setCaseNumber] = useState('') // 案件号
     const [accuser, setAccuser] = useState('') // 原告
@@ -34,6 +43,8 @@ export default function EditCase() {
     const [hostOption, setHostOption] = useState<OptionConfig[]>([]) // 主办人选项
     const [hostValue, setHostValue] = useState('') // 主办人输入框值
     const [hostID, setHostID] = useState<number | null>(null) // 主办人ID
+    const [hostScale, setHostScale] = useState(0) // 主办人比例
+    const [assistIDList, setAssistIDList] = useState<assiantConfig[]>([]) // 协办人选中的ID列表
     // 负责更新值
     const handleInput = (
         func: React.Dispatch<React.SetStateAction<any>>,
@@ -106,8 +117,10 @@ export default function EditCase() {
             </Select>
         </div>
     }
-    const onSearch = async (searchText: string) => {
-        const res = await search_user_list_api({ value: searchText });
+    const onSearch = async (...args: string[]) => {
+        const value = args[0]
+        if (!value) return
+        const res = await search_user_list_api({ value });
         if (httpIsSuccess(res.code)) {
             setHostOption(res.data)
         } else {
@@ -124,6 +137,43 @@ export default function EditCase() {
             }
         }
     };
+    const handleSubmit = async () => {
+        console.log(hostValue)
+        let infoIsNull = false;
+        [caseNumber, caseReason, caseTrial, caseType, accuser, defendant, hostID, hostScale].map(item => {
+            infoIsNull = infoIsNull ? true : item === null
+        })
+        if (infoIsNull) {
+            errorToast('信息未填写完，请检查后重试')
+            return
+        }
+        const res = await add_case_api({
+            caseNumber,
+            caseReason,
+            caseTrial,
+            caseType,
+            accuser,
+            defendant,
+            detail,
+            host: {
+                id: (hostID as number),
+                scale: hostScale
+            },
+            assiant: assistIDList.map(assist => {
+                return {
+                    id: assist.id,
+                    scale: assist.scale
+                }
+            })
+        })
+        if (httpIsSuccess(res.code)) {
+            successToast('新建案件成功')
+            history.goBack()
+        } else {
+            errorToast(res.message)
+        }
+    }
+    UseThrottle(onSearch, 0.5 * 1000)(hostValue)
     return (
         <div className={`${stylePrefix}-layout`}>
             <Provider store={store} >
@@ -146,7 +196,6 @@ export default function EditCase() {
                         value={hostValue}
                         className={`${stylePrefix}-autoComplete`}
                         onSelect={onSelect}
-                        onSearch={onSearch}
                         onChange={(value) => setHostValue(value)}
                         placeholder="主办人"
                     >
@@ -157,9 +206,31 @@ export default function EditCase() {
                         ))}
                     </AutoComplete>
                 </div>
+                <div className={`${stylePrefix}-input-layout`}>
+                    <p>
+                        <span className={`${stylePrefix}-title`} >主办人比例</span>
+                        <span className={`${stylePrefix}-symbol`} >：</span>
+                    </p>
+                    <div className={`${stylePrefix}-couter-step`}>
+                        <CouterStep
+                            value={hostScale}
+                            callback={(inputValue) => setHostScale(inputValue)}
+                        />
+                        &nbsp; %
+                    </div>
+                </div>
             </div>
             <div className={`${stylePrefix}-main`}>
-                <AssistInput />
+                <AssistInput
+                    assistIDList={assistIDList}
+                    setAssistIDList={setAssistIDList}
+                />
+            </div>
+            <div className={`${stylePrefix}-submit-layout`}>
+                <Button
+                    type='primary'
+                    onClick={handleSubmit}
+                >提交</Button>
             </div>
         </div>
     )
