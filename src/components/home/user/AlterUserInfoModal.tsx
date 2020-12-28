@@ -1,5 +1,5 @@
 import { Button, Input, Modal } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import 'styles/home/alterUserInfoModal.scss'
 import { alter_user_info_api, get_user_detail_info_api, IAlterUserInfo } from 'http/UserApi'
 import { errorToast, httpIsSuccess, successToast } from 'components/common/utils'
@@ -49,7 +49,7 @@ export default function AlterUserInfoModal({ visible, setVisible, userID, getUse
         }
     }
     // 获取用户详细信息
-    const getUserDetail = async () => {
+    const getUserDetail = useCallback(async () => {
         if (userID !== null) {
             const res = await get_user_detail_info_api({ userID });
             if (httpIsSuccess(res.code)) {
@@ -58,7 +58,7 @@ export default function AlterUserInfoModal({ visible, setVisible, userID, getUse
                 errorToast(res.message)
             }
         }
-    }
+    }, [])
     const handleCancel = () => {
         setVisible(false)
     }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import 'styles/home/userList.scss'
 import { Table, Button, Select, Space } from 'antd';
 import { AuthorConfig, IndentifyConfig, errorToast, successToast, httpIsSuccess } from 'components/common/utils';
@@ -116,7 +116,7 @@ export default function UserList() {
             align: 'center'
         },
     ];
-    const getUserList = async () => {
+    const getUserList = useCallback( async () => {
         setLoading(true)
         const res = await get_user_list_api()
         if (httpIsSuccess(res.code)) {
@@ -132,7 +132,7 @@ export default function UserList() {
         } else {
             errorToast(res.message)
         }
-    }
+    }, [])
     const handleTableChange = (pagination: TablePaginationConfig) => {
         if (pagination.current) {
             setCurrent(pagination.current)

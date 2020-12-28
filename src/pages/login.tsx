@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import 'styles/pages/login.scss'
 import { successToast, errorToast, setToken, getToken, httpIsSuccess } from 'components/common/utils'
 import { get_basic_user_info_api, get_verify_code_api, login_password_api } from 'http/UserApi';
@@ -81,7 +81,7 @@ export default function Login({ transform_user }: LoginConfig) {
         }
     }
     // 获取用户基本信息
-    const getUserInfo = async () => {
+    const getUserInfo = useCallback(async () => {
         const token: string = getToken();
         if (token) {
             const res = await get_basic_user_info_api({});
@@ -91,16 +91,16 @@ export default function Login({ transform_user }: LoginConfig) {
                 history.push('/home')
             }
         }
-    }
+    }, [])
     // 变更验证码图片
-    const initVerifyCode = async () => {
+    const initVerifyCode = useCallback(async () => {
         const res = await get_verify_code_api();
         if (httpIsSuccess(res.code)) {
             setVerifyCodeImg(res.data)
         } else {
             errorToast(res.message)
         }
-    }
+    }, [])
     useEffect(() => {
         getUserInfo()
         initVerifyCode()

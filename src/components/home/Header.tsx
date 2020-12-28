@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import 'styles/home/header.scss'
 import store from 'redux/store'
 import { getToken, removeToken, successToast, errorToast } from 'components/common/utils'
@@ -26,12 +26,11 @@ export default function Header({ transform_user, title }: HeaderConfig) {
     const history = useHistory()
     const [avatar, setAvatar] = useState(store.getState().user?.avatar)
     const [isMouse, setIsMouse] = useState(false)
-    const getBasicUser = async () => {
+    const getBasicUser = useCallback(async () => {
         const token: string = getToken()
         if (token && !store.getState().user) {
             const res = await get_basic_user_info_api({});
             const tempUserData: UserBasicConfig = res.data
-            console.log(tempUserData)
             setAvatar(tempUserData.avatar)
             transform_user(tempUserData)
         }
@@ -40,7 +39,7 @@ export default function Header({ transform_user, title }: HeaderConfig) {
             errorToast('请先登录')
             history.push('/login')
         }
-    }
+    }, [])
     const exitLogin = () => {
         removeToken()
         successToast('退出登录成功')

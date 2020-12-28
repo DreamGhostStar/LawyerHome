@@ -2,7 +2,7 @@ import Loading2 from 'components/common/Loading2';
 import { errorToast, httpIsSuccess } from 'components/common/utils';
 import { UserDetailConfig } from 'components/home/user/AlterUserInfoModal';
 import { get_user_info_in_salary_api } from 'http/Salary';
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import 'styles/salary/userBasicShow.scss'
 
 const stylePrefix = 'salary-userBasicShow'
@@ -20,7 +20,7 @@ export default function UserBasicShow({ userID }: UserBasicShowConfig) {
     const [user, setUser] = useState<UserDetailInfoConfig>({})
     const [loading, setLoading] = useState(false)
     // 初始化用户信息
-    const init = async () => {
+    const init = useCallback( async () => {
         setLoading(true)
         const res = await get_user_info_in_salary_api({ userID })
         if (httpIsSuccess(res.code)) {
@@ -29,7 +29,7 @@ export default function UserBasicShow({ userID }: UserBasicShowConfig) {
             errorToast(res.message)
         }
         setLoading(false)
-    }
+    }, [])
     useEffect(() => {
         init()
     }, [userID, init])

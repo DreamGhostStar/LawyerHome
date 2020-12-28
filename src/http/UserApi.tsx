@@ -1,6 +1,5 @@
-import axios from 'axios'
 import { backIP, testIP } from 'components/common/config'
-import { httpConfig, getHeaders } from 'components/common/utils'
+import { getHeaders } from 'components/common/utils'
 import Http from './Servies'
 
 interface ILoginPassword {

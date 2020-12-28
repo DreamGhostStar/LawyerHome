@@ -1,6 +1,6 @@
 import { errorToast, httpIsSuccess } from 'components/common/utils'
 import { get_salary_list_api } from 'http/Salary'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import 'styles/salary/salaryList.scss'
 const stylePrefix = 'salary-salaryList'
 
@@ -24,14 +24,14 @@ interface YearSalaryItem {
 
 export default function SalaryList({ userID }: SalaryListConfig) {
     const [salaryList, setSalaryList] = useState<YearSalaryItem[]>([])
-    const getSalaryList = async () => {
+    const getSalaryList = useCallback(async () => {
         const res = await get_salary_list_api({ userID })
         if (httpIsSuccess(res.code)) {
             setSalaryList(res.data)
         } else {
             errorToast(res.message)
         }
-    }
+    }, [])
     useEffect(() => {
         getSalaryList()
     }, [userID, getSalaryList])
