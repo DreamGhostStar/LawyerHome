@@ -11,9 +11,10 @@ import { search_user_list_api } from 'http/UserApi'
 import { errorToast, httpIsSuccess, successToast } from 'components/common/utils'
 import AssistInput from 'components/home/lawyer/AssistInput'
 import CouterStep from 'components/home/lawyer/CouterStep'
-import { add_case_api } from 'http/Case'
+import { add_case_api, get_case_detail_api, IAddCase, ICaseDetail, update_case_api } from 'http/Case'
 import UseThrottle from 'hooks/useThrottle'
 import UploadAgency from 'components/home/lawyer/UploadAgency'
+import { BaseHttpResponse } from 'http/Servies'
 const { Option } = Select;
 const { TextArea } = Input;
 const stylePrefix = 'page-editCase'
@@ -64,7 +65,8 @@ export default function EditCase() {
     const buildInput = (
         title: string,
         placeholder: string,
-        func: React.Dispatch<React.SetStateAction<any>>
+        func: React.Dispatch<React.SetStateAction<any>>,
+        value: string,
     ) => {
         return <div className={`${stylePrefix}-input-layout`}>
             <p>
@@ -72,6 +74,7 @@ export default function EditCase() {
                 <span className={`${stylePrefix}-symbol`} >：</span>
             </p>
             <Input
+                value={value}
                 onChange={(e) => handleInput(func, e.target.value)}
                 className={`${stylePrefix}-input`}
                 placeholder={placeholder}
@@ -83,7 +86,8 @@ export default function EditCase() {
     const buildTextArea = (
         title: string,
         placeholder: string,
-        func: React.Dispatch<React.SetStateAction<any>>
+        func: React.Dispatch<React.SetStateAction<any>>,
+        value: string,
     ) => {
         return <div className={`${stylePrefix}-input-layout`}>
             <p>
@@ -91,6 +95,7 @@ export default function EditCase() {
                 <span className={`${stylePrefix}-symbol`} >：</span>
             </p>
             <TextArea
+                value={value}
                 className={`${stylePrefix}-input`}
                 rows={4}
                 placeholder={placeholder}
@@ -143,7 +148,7 @@ export default function EditCase() {
             }
         }
     };
-    const handleSubmit = async () => {
+    const handleSubmit = async (callback: (data: IAddCase) => Promise<BaseHttpResponse>) => {
         let infoIsNull = false;
         [
             caseNumber,
@@ -162,7 +167,8 @@ export default function EditCase() {
             errorToast('信息未填写完，请检查后重试')
             return
         }
-        const res = await add_case_api({
+        const res = await callback({
+            id: isAdd ? undefined : parseInt(params.id),
             caseNumber,
             caseReason,
             caseTrial,
@@ -183,18 +189,36 @@ export default function EditCase() {
             })
         })
         if (httpIsSuccess(res.code)) {
-            successToast('新建案件成功')
+            successToast(`${isAdd ? '新建' : '修改'}案件成功`)
             history.goBack()
         } else {
             errorToast(res.message)
         }
     }
-    const getCaseDetail = ()=>{
-
+    // 获取案件详细信息
+    const getCaseDetail = async (caseID: number) => {
+        const res = await get_case_detail_api({ id: caseID })
+        if (httpIsSuccess(res.code)) {
+            const data: ICaseDetail = res.data;
+            setCaseNumber(data.caseNumber);
+            setAccuser(data.accuser)
+            setAgencyWord(data.agency)
+            setDefendant(data.defendant)
+            setDetail(data.detail)
+            setCaseType(data.caseType)
+            setCaseTrial(data.caseTrial)
+            setCaseReason(data.caseReason)
+            setHostID(data.host.id)
+            setHostValue(data.host.username)
+            setHostScale(data.host.scale)
+            setAssistIDList(data.assiant)
+        } else {
+            errorToast(res.message)
+        }
     }
     useEffect(() => {
-        if(!isAdd){
-            
+        if (!isAdd) {
+            getCaseDetail(parseInt(params.id))
         }
     }, [params.id])
     UseThrottle(onSearch, 0.5 * 1000)(hostValue)
@@ -204,13 +228,13 @@ export default function EditCase() {
                 <HeaderContainer title={isAdd ? '新建案件' : '修改案件'} />
             </Provider>
             <div className={`${stylePrefix}-main`}>
-                {buildInput('案件号', '案件号', setCaseNumber)}
-                {buildInput('原告', '原告', setAccuser)}
-                {buildInput('被告', '被告', setDefendant)}
+                {buildInput('案件号', '案件号', setCaseNumber, caseNumber)}
+                {buildInput('原告', '原告', setAccuser, accuser)}
+                {buildInput('被告', '被告', setDefendant, defendant)}
                 {buildSelect('类型', setCaseType, StaticCaseType, caseType)}
                 {buildSelect('审级', setCaseTrial, StaticCaseTrial, caseTrial)}
-                {buildInput('案由', '案由', setCaseReason)}
-                {buildTextArea('详情', '详情', setDetail)}
+                {buildInput('案由', '案由', setCaseReason, caseReason)}
+                {buildTextArea('详情', '详情', setDetail, detail)}
                 <div className={`${stylePrefix}-input-layout`}>
                     <p>
                         <span className={`${stylePrefix}-title`} >主办人</span>
@@ -257,7 +281,7 @@ export default function EditCase() {
             <div className={`${stylePrefix}-submit-layout`}>
                 <Button
                     type='primary'
-                    onClick={handleSubmit}
+                    onClick={() => handleSubmit(isAdd ? add_case_api : update_case_api)}
                 >提交</Button>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import { AutoComplete } from 'antd'
+import { AutoComplete, Button } from 'antd'
 import { errorToast, httpIsSuccess } from 'components/common/utils'
 import UseThrottle from 'hooks/useThrottle'
 import { search_user_list_api } from 'http/UserApi'
@@ -72,6 +72,16 @@ export default function AssistInput({ assistIDList, setAssistIDList }: AssistInp
     }
     // 节流模块
     UseThrottle(onSearch, 0.5 * 1000)(assistValue)
+    // 处理删除
+    const handleDelete = (id: number) => {
+        const res: assiantConfig[] = []
+        assistIDList.map(assist => {
+            if (assist.id !== id) {
+                res.push(assist)
+            }
+        })
+        setAssistIDList(res)
+    }
 
     return (
         <>
@@ -106,6 +116,11 @@ export default function AssistInput({ assistIDList, setAssistIDList }: AssistInp
                                 />
                                 &nbsp; %
                             </div>
+                            <Button
+                                danger
+                                type='link'
+                                onClick={() => handleDelete(assist.id)}
+                            >删除</Button>
                         </div>
                     })
                 }

@@ -1,16 +1,17 @@
-import { useCallback } from "react"
+import { useCallback, useRef } from "react"
+interface TimerRefConfig { timer: NodeJS.Timeout | null }
 
 export default function UseThrottle(
     func: any,
     delay: number
 ) {
-    let timer: NodeJS.Timeout | null = null
+    const { current } = useRef<TimerRefConfig>({ timer: null })
     return useCallback((...args) => {
-        if (!timer) {
-            timer = setTimeout(() => {
-                timer = null
+        if (!current.timer) {
+            current.timer = setTimeout(() => {
+                current.timer = null
             }, delay)
             func(...args)
         }
-    }, [timer])
+    }, [current.timer, delay, func])
 }

@@ -14,7 +14,7 @@ axios.interceptors.response.use(
   }
 );
 
-interface BaseHttpResponse {
+export interface BaseHttpResponse {
   code: number;
   data: any;
   message: string;

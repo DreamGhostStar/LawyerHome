@@ -43,11 +43,21 @@ export default function CaseList() {
             title: '名称',
             dataIndex: 'name',
             key: 'name',
-            render: (name: string, _record: CaseItemConfig) => {
+            render: (name: string) => {
                 return (
                     <div className={`${stylePrefix}-author`}>
                         <p className={`${stylePrefix}-realname`} >{name}</p>
                     </div>
+                )
+            },
+        },
+        {
+            title: '主办人',
+            dataIndex: 'host',
+            key: 'host',
+            render: (host: string) => {
+                return (
+                    <p className={`${stylePrefix}-realname`} >{host}</p>
                 )
             },
         },

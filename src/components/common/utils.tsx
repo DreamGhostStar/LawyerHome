@@ -56,6 +56,11 @@ export const isNull = (value: any) => {
     return value === null;
 }
 
+// 为小于10提高格式化
+const formatLessTen = (value: number) => {
+    return value < 10 ? '0' + value : value
+}
+
 // 转换时间
 export const formatTime = (date: Date) => {
     const year = date.getFullYear();
@@ -64,5 +69,6 @@ export const formatTime = (date: Date) => {
     const hour = date.getHours();
     const minute = date.getMinutes();
     const seconds = date.getSeconds();
-    return `${year}-${month}-${day} ${hour}:${minute}:${seconds}`
+    return `${year}-${formatLessTen(month)}-${formatLessTen(day)} ` +
+        `${formatLessTen(hour)}:${formatLessTen(minute)}:${formatLessTen(seconds)}`
 }
