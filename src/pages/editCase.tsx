@@ -1,6 +1,6 @@
 import { AutoComplete, Button, Input, Select } from 'antd'
 import HeaderContainer from 'containers/HeaderContainer'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Provider } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import store from 'redux/store'
@@ -124,8 +124,7 @@ export default function EditCase() {
             </Select>
         </div>
     }
-    const onSearch = async (...args: string[]) => {
-        const value = args[0]
+    const onSearch = async (value: string) => {
         if (!value) return
         const res = await search_user_list_api({ value });
         if (httpIsSuccess(res.code)) {
@@ -190,6 +189,14 @@ export default function EditCase() {
             errorToast(res.message)
         }
     }
+    const getCaseDetail = ()=>{
+
+    }
+    useEffect(() => {
+        if(!isAdd){
+            
+        }
+    }, [params.id])
     UseThrottle(onSearch, 0.5 * 1000)(hostValue)
     return (
         <div className={`${stylePrefix}-layout`}>
