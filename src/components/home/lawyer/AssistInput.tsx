@@ -1,4 +1,4 @@
-import { AutoComplete, Button } from 'antd'
+import { AutoComplete } from 'antd'
 import { errorToast, httpIsSuccess } from 'components/common/utils'
 import UseThrottle from 'hooks/useThrottle'
 import { search_user_list_api } from 'http/UserApi'
@@ -90,7 +90,6 @@ export default function AssistInput({ assistIDList, setAssistIDList }: AssistInp
                         </AutoComplete.Option>
                     ))}
                 </AutoComplete>
-                <Button>新增</Button>
             </div>
             <div className={`${stylePrefix}-user-show-layout`} >
                 {

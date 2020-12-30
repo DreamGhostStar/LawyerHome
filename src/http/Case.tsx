@@ -14,6 +14,7 @@ interface IAddCase {
     caseTrial: string;
     caseType: string;
     caseReason: string;
+    agency: string;
     detail: string;
     host: IScale;
     assiant: IScale[];

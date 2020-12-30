@@ -28,7 +28,7 @@ class Http {
     if (method === 'GET') {
       return new Promise((resolve, reject) => {
         axios
-          .get(url, { data: data, headers: headers })
+          .get(url, { params: data, headers: headers })
           .then(res => {
             resolve(res.data);
           })

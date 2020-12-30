@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import 'styles/home/header.scss'
 import store from 'redux/store'
-import { getToken, removeToken, successToast, errorToast } from 'components/common/utils'
+import { getToken, removeToken, successToast, errorToast, httpIsSuccess } from 'components/common/utils'
 import { useHistory } from 'react-router-dom'
 import { get_basic_user_info_api } from 'http/UserApi'
 import { IconFont } from 'components/common/config'
@@ -30,9 +30,14 @@ export default function Header({ transform_user, title }: HeaderConfig) {
         const token: string = getToken()
         if (token && !store.getState().user) {
             const res = await get_basic_user_info_api({});
-            const tempUserData: UserBasicConfig = res.data
-            setAvatar(tempUserData.avatar)
-            transform_user(tempUserData)
+            if (httpIsSuccess(res.code)) {
+                const tempUserData: UserBasicConfig = res.data
+                setAvatar(tempUserData.avatar)
+                transform_user(tempUserData)
+            } else {
+                errorToast(res.message)
+                history.push('/login')
+            }
         }
 
         if (!store.getState().user) {

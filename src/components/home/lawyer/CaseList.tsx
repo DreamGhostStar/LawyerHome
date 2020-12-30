@@ -26,8 +26,6 @@ export default function CaseList() {
     const [caseList, setCaseList] = useState<CaseItemConfig[]>([])
     const [current, setCurrent] = useState(1) // 当前page
     const [num, setNum] = useState(0)
-    const [alterVisible, setAlterVisible] = useState(false)
-    const [selectCaseID, setSelectCaseID] = useState<number | null>(null)
     const history = useHistory()
     const openModal = (id: number | null, type: ModalType) => {
         if (id === null) {

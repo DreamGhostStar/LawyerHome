@@ -47,10 +47,22 @@ export interface IndentifyConfig {
     value: string
 }
 
+// http请求是否正确
 export const httpIsSuccess = (code: number) => {
     return code === 0;
 }
 
 export const isNull = (value: any) => {
     return value === null;
+}
+
+// 转换时间
+export const formatTime = (date: Date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDay();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const seconds = date.getSeconds();
+    return `${year}-${month}-${day} ${hour}:${minute}:${seconds}`
 }

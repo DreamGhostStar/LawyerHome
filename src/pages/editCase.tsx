@@ -13,6 +13,7 @@ import AssistInput from 'components/home/lawyer/AssistInput'
 import CouterStep from 'components/home/lawyer/CouterStep'
 import { add_case_api } from 'http/Case'
 import UseThrottle from 'hooks/useThrottle'
+import UploadAgency from 'components/home/lawyer/UploadAgency'
 const { Option } = Select;
 const { TextArea } = Input;
 const stylePrefix = 'page-editCase'
@@ -27,6 +28,11 @@ export interface assiantConfig {
     id: number;
     username: string;
     scale: number;
+}
+export interface AgencyWordConfig {
+    url: string;
+    filename: string;
+    uploadTime: string;
 }
 
 export default function EditCase() {
@@ -45,6 +51,7 @@ export default function EditCase() {
     const [hostID, setHostID] = useState<number | null>(null) // 主办人ID
     const [hostScale, setHostScale] = useState(0) // 主办人比例
     const [assistIDList, setAssistIDList] = useState<assiantConfig[]>([]) // 协办人选中的ID列表
+    const [agencyWord, setAgencyWord] = useState<AgencyWordConfig | null>(null) // 代理词word的http路径
     // 负责更新值
     const handleInput = (
         func: React.Dispatch<React.SetStateAction<any>>,
@@ -138,10 +145,19 @@ export default function EditCase() {
         }
     };
     const handleSubmit = async () => {
-        console.log(hostValue)
         let infoIsNull = false;
-        [caseNumber, caseReason, caseTrial, caseType, accuser, defendant, hostID, hostScale].map(item => {
-            infoIsNull = infoIsNull ? true : item === null
+        [
+            caseNumber,
+            caseReason,
+            caseTrial,
+            caseType,
+            accuser,
+            defendant,
+            hostID,
+            hostScale,
+            agencyWord
+        ].map(item => {
+            infoIsNull = infoIsNull ? true : (item === null || item === '')
         })
         if (infoIsNull) {
             errorToast('信息未填写完，请检查后重试')
@@ -155,6 +171,7 @@ export default function EditCase() {
             accuser,
             defendant,
             detail,
+            agency: (agencyWord as AgencyWordConfig).url,
             host: {
                 id: (hostID as number),
                 scale: hostScale
@@ -219,6 +236,10 @@ export default function EditCase() {
                         &nbsp; %
                     </div>
                 </div>
+                <UploadAgency
+                    agencyWord={agencyWord}
+                    setAgencyWord={setAgencyWord}
+                />
             </div>
             <div className={`${stylePrefix}-main`}>
                 <AssistInput
