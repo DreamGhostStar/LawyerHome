@@ -6,6 +6,7 @@ import HeaderContainer from 'containers/HeaderContainer'
 import Sider from 'components/home/Sider'
 import UserList from 'components/home/user/UserList'
 import CaseList from 'components/home/lawyer/CaseList'
+import DailyPhoneList from 'components/home/phone/DailyPhoneList'
 
 const stylePrefix = 'page-home'
 
@@ -14,6 +15,7 @@ export default function Home() {
     const mainPageMap = new Map();
     mainPageMap.set(0, <UserList />)
     mainPageMap.set(1, <CaseList />)
+    mainPageMap.set(2, <DailyPhoneList />)
     return (
         <div className={`${stylePrefix}-layout`}>
             <Provider store={store}>

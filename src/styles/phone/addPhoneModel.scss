@@ -1,0 +1,25 @@
+$file-prefix: 'phone-addPhoneModel';
+
+.#{$file-prefix}-input-layout {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    .#{$file-prefix}-title {
+        width: 60px;
+        text-align: justify;
+        text-align-last: justify;
+        line-height: 30px;
+        margin: 0px;
+        margin-right: 20px;
+        font-weight: bold;
+    }
+
+    .#{$file-prefix}-input {
+        width: 120px;
+    }
+
+    .#{$file-prefix}-description-input {
+        width: 220px;
+    }
+}

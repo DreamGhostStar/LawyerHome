@@ -24,7 +24,12 @@ export interface BaseHttpResponse {
 type IMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
 
 class Http {
-  static request(url: string, data: object, method: IMethod, headers?: object): Promise<BaseHttpResponse> {
+  static request(
+    url: string,
+    data: object,
+    method: IMethod,
+    headers?: object
+  ): Promise<BaseHttpResponse> {
     if (method === 'GET') {
       return new Promise((resolve, reject) => {
         axios

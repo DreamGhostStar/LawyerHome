@@ -27,17 +27,24 @@ export default function Header({ transform_user, title }: HeaderConfig) {
     const history = useHistory()
     const [avatar, setAvatar] = useState(store.getState().user?.avatar)
     const [isMouse, setIsMouse] = useState(false)
+    const handleError = (message: string) => {
+        // errorToast()
+    }
     const getBasicUser = useCallback(async () => {
         const token: string = getToken()
         if (token && !store.getState().user) {
-            const res = await get_basic_user_info_api({});
-            if (httpIsSuccess(res.code)) {
-                const tempUserData: UserBasicConfig = res.data
-                setAvatar(tempUserData.avatar)
-                transform_user(tempUserData)
-            } else {
-                errorToast(res.message)
-                history.push('/login')
+            try {
+                const res = await get_basic_user_info_api({});
+                if (httpIsSuccess(res.code)) {
+                    const tempUserData: UserBasicConfig = res.data
+                    setAvatar(tempUserData.avatar)
+                    transform_user(tempUserData)
+                } else {
+                    errorToast(res.message)
+                    history.push('/login')
+                }
+            } catch (error) {
+                errorToast(error.message)
             }
         }
 
