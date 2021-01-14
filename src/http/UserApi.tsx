@@ -9,6 +9,12 @@ interface ILoginPassword {
     platform: number;
 }
 
+interface ILoginNumber {
+    phoneNumber: string;
+    verification_code: string;
+    platform: number;
+}
+
 interface IGetBasicUserInfo {
     userID?: number;
 }
@@ -49,6 +55,10 @@ interface ISearchUser {
     value: string;
 }
 
+interface ISendVerifyNumber {
+    phoneNumber: string;
+}
+
 // 获取图片验证码
 export const get_verify_code_api = async () => {
     return await Http.request(`${backIP}/public/verificationCode/image`, {}, 'GET')
@@ -57,6 +67,11 @@ export const get_verify_code_api = async () => {
 // 管理员手机号密码登录
 export const login_password_api = async (data: ILoginPassword) => {
     return await Http.request(`${backIP}/login/password`, data, 'POST')
+}
+
+// 管理员手机号验证码登录
+export const login_number_api = async (data: ILoginNumber) => {
+    return await Http.request(`${backIP}/login/note`, data, 'POST')
 }
 
 // 获取管理员基本信息
@@ -102,4 +117,9 @@ export const add_new_user_api = async (data: IAddUser) => {
 // 查找数据库用户
 export const search_user_list_api = async (data: ISearchUser) => {
     return await Http.request(`${testIP}/admin/user/tip`, data, 'GET', getHeaders())
+}
+
+// 重新发送手机验证码
+export const send_phone_verify_number_api = async (data: ISendVerifyNumber) => {
+    return await Http.request(`${backIP}/public/verificationCode/note`, data, 'POST', getHeaders())
 }
