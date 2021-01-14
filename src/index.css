@@ -38,3 +38,7 @@ html {
   border-radius: 10px;
   background: #EDEDED;
 }
+
+p {
+  margin: 0px;
+}

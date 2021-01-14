@@ -1,0 +1,22 @@
+$file-prefix: 'page-request';
+
+.#{$file-prefix}-layout {
+    height: 100%;
+    background-color: #eee;
+    overflow-y: scroll;
+
+    .#{$file-prefix}-main {
+
+        .#{$file-prefix}-button-layout {
+            display: inline-block;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            margin: 20px auto;
+
+            .#{$file-prefix}-button {
+                margin: 0px 40px;
+            }
+        }
+    }
+}

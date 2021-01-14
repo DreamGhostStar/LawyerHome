@@ -21,8 +21,16 @@ const salaryPage = Loadable({
     loader: () => import('./pages/salary'),
 });
 
+const logPage = Loadable({
+    loader: () => import('./pages/log'),
+});
+
 const editCasePage = Loadable({
     loader: () => import('./pages/editCase'),
+});
+
+const requestPage = Loadable({
+    loader: () => import('./pages/request'),
 });
 
 // 前端路由
@@ -36,6 +44,8 @@ export default class Entry extends Component {
                         <Route path='/salary/:id' component={salaryPage} />
                         <Route path='/case' component={editCasePage} exact/>
                         <Route path='/case/:id' component={editCasePage} />
+                        <Route path='/log/:id' component={logPage} />
+                        <Route path='/request/:id' component={requestPage} />
                         <Provider store={store} >
                             <Route path='/login' component={loginPage} />
                         </Provider>

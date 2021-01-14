@@ -54,6 +54,9 @@ export default function UserList() {
     const gotoSalaryPage = (userID: number) => {
         history.push(`/salary/${userID}`);
     }
+    const gotoLogPage = (userID: number) => {
+        history.push(`/log/${userID}`);
+    }
     const columns: ColumnsType<UserItemConfig> = [
         {
             title: '姓名',
@@ -110,6 +113,9 @@ export default function UserList() {
                         <Button
                             onClick={() => gotoSalaryPage(text.id)}
                         >查看收入</Button>
+                        <Button
+                            onClick={() => gotoLogPage(text.id)}
+                        >查看日志</Button>
                     </Space>
                 )
             },

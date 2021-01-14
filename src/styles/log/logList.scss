@@ -1,0 +1,97 @@
+$file-prefix: 'log-logList';
+
+.#{$file-prefix}-layout {
+    width: 900px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 40px;
+    position: relative;
+
+    .#{$file-prefix}-date-select {
+        position: relative;
+        width: 150px;
+        left: 50%;
+        margin-left: -75px;
+    }
+
+    .#{$file-prefix}-list-layout {
+        margin-top: 20px;
+        border-radius: 5px;
+        background-color: #fff;
+        box-shadow: 8px 8px 6px rgba(18, 18, 18, 0.1);
+
+        .#{$file-prefix}-list-item-layout {
+            display: flex;
+            justify-content: flex-start;
+
+            .#{$file-prefix}-leading {
+                margin-left: 40px;
+
+                .#{$file-prefix}-prefix-icon-line {
+                    width: 10px;
+                    height: 40px;
+                    background-color: #0099FF;
+                    margin: 0 auto;
+                }
+
+                .#{$file-prefix}-prefix-icon-layout {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    background-color: #ccc;
+
+                    .#{$file-prefix}-prefix-icon {
+                        font-size: 30px;
+                        margin-top: 5px;
+                        margin-left: 5px;
+                        color: #fff;
+                    }
+                }
+            }
+
+            .#{$file-prefix}-main-layout {
+                margin-left: 40px;
+                margin-top: 10px;
+
+                .#{$file-prefix}-time {
+                    display: flex;
+                    justify-content: space-between;
+
+                    .#{$file-prefix}-title {
+                        font-weight: bold;
+                    }
+
+                    & > p {
+                        margin: 5px;
+                    }
+                }
+
+                .#{$file-prefix}-main {
+                    background-color: #00CCFF;
+                    width: 600px;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+
+                    &:hover {
+                        box-shadow: 8px 8px 6px rgba(18, 18, 18, 0.1);
+                    }
+
+                    .#{$file-prefix}-title {
+                        font-weight: bold;
+                        color: #fff;
+                        font-size: 18px;
+                    }
+
+                    .#{$file-prefix}-content {
+                        margin: 0px;
+                        color: #000;
+                        font-size: 12px;
+                        white-space:nowrap;
+                        overflow:hidden;
+                        text-overflow:ellipsis;
+                    }
+                }
+            }
+        }
+    }
+}

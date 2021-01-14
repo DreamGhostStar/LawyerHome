@@ -13,6 +13,7 @@ $file-prefix: 'home-userList';
         position: relative;
         left: 50%;
         margin-left: -450px;
+
         .#{$file-prefix}-title {
             font-weight: bold;
         }
@@ -25,6 +26,10 @@ $file-prefix: 'home-userList';
         left: 50%;
         margin-left: -450px;
         height: 100%;
+    }
+
+    .#{$file-prefix}-icon {
+        font-size: 20px;
     }
 
     .#{$file-prefix}-author {
