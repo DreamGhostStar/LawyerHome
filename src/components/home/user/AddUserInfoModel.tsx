@@ -1,4 +1,4 @@
-import { Button, DatePicker, Input, Radio } from 'antd'
+import { Button, DatePicker, Input, InputNumber, Radio, Select } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import { IconFont } from 'components/common/config'
 import { errorToast, httpIsSuccess, successToast } from 'components/common/utils'
@@ -6,13 +6,15 @@ import { add_new_user_api, upload_file_api } from 'http/UserApi'
 import React, { ChangeEvent, useRef, useState } from 'react'
 import 'styles/home/addUserInfoModal.scss'
 const stylePrefix = 'home-addUserModel'
+const { Option } = Select;
 
 interface AddUserInfoModelConfig {
     visible: boolean;
-    setVisible: React.Dispatch<React.SetStateAction<boolean>>
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    getUserList: () => Promise<void>;
 }
 
-export default function AddUserInfoModel({ visible, setVisible }: AddUserInfoModelConfig) {
+export default function AddUserInfoModel({ visible, setVisible, getUserList }: AddUserInfoModelConfig) {
     const [loading, setLoading] = useState(false)
     const [identify, setIdentify] = useState('common_lawyer') // 律师、管理员身份选择器
     const [lawyerNumber, setLawyerNumber] = useState('') // 律师证号
@@ -22,6 +24,8 @@ export default function AddUserInfoModel({ visible, setVisible }: AddUserInfoMod
     const [qualificationsNumber, setQualificationsNumber] = useState('') // 法律资格证号
     const [phone, setPhone] = useState('') // 电话号码
     const [startTime, setStartTime] = useState('') // 职业开始时间
+    const [age, setAge] = useState<number>(1) // 年龄
+    const [sex, setSex] = useState('男') // 性别
     const fileInput = useRef<HTMLInputElement>(null)
     const handleCancel = () => {
         setVisible(false)
@@ -39,15 +43,18 @@ export default function AddUserInfoModel({ visible, setVisible }: AddUserInfoMod
                 qualificationsNumber,
                 phone,
                 startTime,
+                age,
+                sex
             })
             if (httpIsSuccess(res.code)) {
                 successToast('操作成功')
                 setVisible(false)
                 clear()
+                getUserList()
             } else {
                 errorToast(res.message)
             }
-            setLoading(true)
+            setLoading(false)
         }
     }
     // 清除数据
@@ -77,6 +84,16 @@ export default function AddUserInfoModel({ visible, setVisible }: AddUserInfoMod
                 setImg(res.data)
             } else {
                 errorToast(res.message)
+            }
+        }
+    }
+    // 处理年龄的变化
+    const handleAge = (value: string | number | undefined) => {
+        if (value !== undefined) {
+            if (typeof value === 'string') {
+                setAge(parseInt(value))
+            } else {
+                setAge(value)
             }
         }
     }
@@ -118,6 +135,26 @@ export default function AddUserInfoModel({ visible, setVisible }: AddUserInfoMod
                     onChange={(e) => setIdentifyNumber(e.target.value)}
                     className={`${stylePrefix}-input`}
                 />
+                <InputNumber
+                    min={1}
+                    defaultValue={undefined}
+                    placeholder='年龄'
+                    max={200}
+                    onChange={handleAge}
+                    className={`${stylePrefix}-input`}
+                />
+                <Select
+                    defaultValue="男"
+                    style={{
+                        display: 'block',
+                        width: 120
+                    }}
+                    className={`${stylePrefix}-input`}
+                    onChange={(value) => setSex(value)}
+                >
+                    <Option value="男">男</Option>
+                    <Option value="女">女</Option>
+                </Select>
                 <Input
                     value={name}
                     placeholder='姓名'

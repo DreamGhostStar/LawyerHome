@@ -95,11 +95,6 @@ export default function CaseList() {
                             type="primary"
                             onClick={() => openModal(text.id, 'alter')}
                         >修改</Button>
-                        <Button
-                            type="primary"
-                            danger
-                        // onClick={() => gotoSalaryPage(text.id)}
-                        >删除</Button>
                     </Space>
                 )
             },

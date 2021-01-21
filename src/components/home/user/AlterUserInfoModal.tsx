@@ -16,19 +16,22 @@ interface AlterUserInfoModalConfig {
 }
 
 export interface UserDetailConfig {
-    name?: string;
-    phoneNumber?: string;
-    weixin_number?: string;
-    lawyer_number?: string;
+    name: string;
+    phoneNumber: string;
+    weixin_number: string;
+    lawyer_number: string;
 }
 
 export default function AlterUserInfoModal({ visible, setVisible, userID, getUserList, current }: AlterUserInfoModalConfig) {
     const [loading, setLoading] = useState(false)
     const [user, setUser] = useState<UserDetailConfig | null>(null)
     const handleOk = async () => {
-        if (user && user.name && user.phoneNumber && user.lawyer_number && user.weixin_number) {
+        if (user && user.name && user.phoneNumber && user.lawyer_number && user.weixin_number && userID) {
             setLoading(true)
-            const res = await alter_user_info_api((user as IAlterUserInfo))
+            const res = await alter_user_info_api({
+                ...user,
+                userID
+            })
             if (httpIsSuccess(res.code)) {
                 getUserList(current)
                 successToast('修改成功')

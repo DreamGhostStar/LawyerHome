@@ -1,4 +1,4 @@
-import { backIP, testIP } from 'components/common/config'
+import { backIP } from 'components/common/config'
 import { getHeaders } from 'components/common/utils'
 import Http from './Servies'
 
@@ -34,6 +34,7 @@ interface IGetDetailUserInfo {
 }
 
 export interface IAlterUserInfo {
+    userID: number;
     name: string;
     phoneNumber: string;
     weixin_number: string;
@@ -49,6 +50,8 @@ interface IAddUser {
     qualificationsNumber: string;
     phone: string;
     startTime: string;
+    age: number;
+    sex: string;
 }
 
 interface ISearchUser {
@@ -81,27 +84,27 @@ export const get_basic_user_info_api = async (data: IGetBasicUserInfo) => {
 
 // 获取用户列表
 export const get_user_list_api = async () => {
-    return await Http.request(`${testIP}/admin/userList`, {}, 'GET', getHeaders())
+    return await Http.request(`${backIP}/admin/userList`, {}, 'GET', getHeaders())
 }
 
 // 修改用户身份
 export const alter_user_identify_api = async (data: IAlterUserIdentify) => {
-    return await Http.request(`${testIP}/admin/user/identify`, data, 'PUT', getHeaders())
+    return await Http.request(`${backIP}/admin/user/identify`, data, 'PUT', getHeaders())
 }
 
 // 重置用户密码
 export const reset_user_password_api = async (data: IResetUserPassword) => {
-    return await Http.request(`${testIP}/admin/user/password`, data, 'PUT', getHeaders())
+    return await Http.request(`${backIP}/admin/user/password`, data, 'PUT', getHeaders())
 }
 
 // 获取用户详细信息
 export const get_user_detail_info_api = async (data: IGetDetailUserInfo) => {
-    return await Http.request(`${testIP}/admin/user`, data, 'GET', getHeaders())
+    return await Http.request(`${backIP}/admin/user`, data, 'GET', getHeaders())
 }
 
 // 修改用户信息
 export const alter_user_info_api = async (data: IAlterUserInfo) => {
-    return await Http.request(`${testIP}/admin/user`, data, 'PUT', getHeaders())
+    return await Http.request(`${backIP}/admin/user`, data, 'PUT', getHeaders())
 }
 
 // 上传文件
@@ -111,12 +114,12 @@ export const upload_file_api = async (data: FormData) => {
 
 // 生成新账号
 export const add_new_user_api = async (data: IAddUser) => {
-    return await Http.request(`${testIP}/admin/user`, data, 'POST', getHeaders())
+    return await Http.request(`${backIP}/admin/user`, data, 'POST', getHeaders())
 }
 
 // 查找数据库用户
 export const search_user_list_api = async (data: ISearchUser) => {
-    return await Http.request(`${testIP}/admin/user/tip`, data, 'GET', getHeaders())
+    return await Http.request(`${backIP}/admin/user/tip`, data, 'GET', getHeaders())
 }
 
 // 重新发送手机验证码

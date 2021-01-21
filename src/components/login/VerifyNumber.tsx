@@ -61,7 +61,6 @@ export default function VerifyNumber({
         return () => {
             if (delayNumber === 0 && current.timer) {
                 clearTimeout(current.timer)
-                // setIsSend(false)
             }
         }
     }, [isSend, delayNumber])

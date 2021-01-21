@@ -19,6 +19,7 @@ export interface PhoneConfig {
     type: DailyPhoneType;
     id: number;
     value: string;
+    phoneNumber: string;
 }
 interface PathConfig {
     id: null | number;
@@ -28,6 +29,7 @@ interface PathConfig {
 export default function DailyPhoneList() {
     const [path, setPath] = useState<PathConfig[]>([{ id: null, value: "根" }])
     const [list, setList] = useState<(PhoneConfig | UnitConfig)[]>([])
+    const [currentID, setCurrentID] = useState<number | null>(null)
     const [selectedID, setSelectedID] = useState<number | null>(null) // 当前单位ID
     const [editObj, setEditObj] = useState<PhoneConfig | UnitConfig | null>(null) // 修改和增加时选择的对象
     const [loading, setLoading] = useState(false)
@@ -35,7 +37,7 @@ export default function DailyPhoneList() {
     // 获取单位和日常电话
     const init = async () => {
         setLoading(true)
-        const res = await get_unit_phone_api({ unitID: selectedID })
+        const res = await get_unit_phone_api({ unitID: currentID })
         if (httpIsSuccess(res.code)) {
             setList(res.data)
         } else {
@@ -45,10 +47,10 @@ export default function DailyPhoneList() {
     }
     useEffect(() => {
         init();
-    }, [path])
+    }, [currentID])
     const handleClick = (id: number, type: DailyPhoneType, value: string) => {
         if (type === 'unit') {
-            setSelectedID(id)
+            setCurrentID(id)
             setPath([...path, {
                 id,
                 value
@@ -56,15 +58,19 @@ export default function DailyPhoneList() {
         }
     }
     const handleClickPath = (index: number) => {
-        setSelectedID(path[index].id)
+        setCurrentID(path[index].id)
         const temp = path
         temp.splice(index + 1, path.length - index - 1)
         setPath(temp)
     }
-    const handleRemove = async (id: number | null, e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    const handleRemove = async (
+        id: number | null,
+        e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+        type: DailyPhoneType
+    ) => {
         e.stopPropagation()
         if (id !== null) {
-            const res = await remove_unit_phone_api({ unitID: id })
+            const res = await remove_unit_phone_api({ id, type })
             if (httpIsSuccess(res.code)) {
                 successToast("删除成功")
                 init()
@@ -75,13 +81,16 @@ export default function DailyPhoneList() {
     }
     const handleAdd = () => {
         setVisible(true);
+        setSelectedID(null)
         setEditObj(null)
     }
     const handleEdit = (
         e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
         obj: PhoneConfig | UnitConfig,
+        id: number,
     ) => {
         e.stopPropagation();
+        setSelectedID(id)
         setEditObj(obj)
         setVisible(true);
     }
@@ -132,12 +141,12 @@ export default function DailyPhoneList() {
                                     <IconFont
                                         className={`${stylePrefix}-icon`}
                                         type='iconxiugai'
-                                        onClick={(e) => handleEdit(e, phoneUnitItem)}
+                                        onClick={(e) => handleEdit(e, phoneUnitItem, phoneUnitItem.id)}
                                     />
                                     <IconFont
                                         className={`${stylePrefix}-icon`}
                                         type='iconshanchu'
-                                        onClick={(e) => handleRemove(phoneUnitItem.id, e)}
+                                        onClick={(e) => handleRemove(phoneUnitItem.id, e, phoneUnitItem.type)}
                                     />
                                 </div>
                             </div>
@@ -149,8 +158,10 @@ export default function DailyPhoneList() {
                 visible={visible}
                 setVisible={setVisible}
                 selectID={selectedID}
+                currentID={currentID}
                 editObj={editObj}
                 setEditObj={setEditObj}
+                init={init}
             />
         </LoadingWidget>
     )

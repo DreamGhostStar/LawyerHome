@@ -178,6 +178,7 @@ export default function UserList() {
             <AddUserInfoModel
                 visible={addVisible}
                 setVisible={setAddVisible}
+                getUserList={getUserList}
             />
         </div>
     )
