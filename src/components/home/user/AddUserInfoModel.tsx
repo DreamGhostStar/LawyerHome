@@ -32,30 +32,28 @@ export default function AddUserInfoModel({ visible, setVisible, getUserList }: A
         clear()
     }
     const handleOk = async () => {
-        if (img) {
-            setLoading(true)
-            const res = await add_new_user_api({
-                identify,
-                lawyerNumber,
-                identifyNumber,
-                name,
-                avatar: img,
-                qualificationsNumber,
-                phone,
-                startTime,
-                age,
-                sex
-            })
-            if (httpIsSuccess(res.code)) {
-                successToast('操作成功')
-                setVisible(false)
-                clear()
-                getUserList()
-            } else {
-                errorToast(res.message)
-            }
-            setLoading(false)
+        setLoading(true)
+        const res = await add_new_user_api({
+            identify,
+            lawyerNumber,
+            identifyNumber,
+            name,
+            avatar: img ? img : 'http://lawyer.youchen-blog.cn/fbe4bf56c9c62a5cfea4da0275c29845.jpg',
+            qualificationsNumber,
+            phone,
+            startTime,
+            age,
+            sex
+        })
+        if (httpIsSuccess(res.code)) {
+            successToast('操作成功')
+            setVisible(false)
+            clear()
+            getUserList()
+        } else {
+            errorToast(res.message)
         }
+        setLoading(false)
     }
     // 清除数据
     const clear = () => {

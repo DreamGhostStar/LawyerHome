@@ -117,7 +117,7 @@ export default function Login({ transform_user }: LoginConfig) {
     }, [transform_user, history])
     // 变更验证码图片
     const initVerifyCode = useCallback(async () => {
-        const res = await get_verify_code_api();
+        const res = await get_verify_code_api({ platform: 2 });
         if (httpIsSuccess(res.code)) {
             setVerifyCodeImg(res.data)
         } else {

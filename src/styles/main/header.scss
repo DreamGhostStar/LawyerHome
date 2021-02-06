@@ -1,0 +1,38 @@
+$file-prefix: 'main-header';
+
+.#{$file-prefix}-layout {
+    background: black;
+    padding: 0px 40px;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+
+    .#{$file-prefix}-header-title {
+        color: white;
+        user-select: none;
+        font-size: 40px;
+        margin: 0px;
+        letter-spacing: 8px;
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #00FFFF, 0 0 70px #00FFFF, 0 0 80px #00FFFF, 0 0 100px #00FFFF, 0 0 150px #00FFFF;
+    }
+
+    .#{$file-prefix}-nav-layout {
+        display: flex;
+        justify-content: start;
+        margin-right: 40px;
+
+        .#{$file-prefix}-nav-item {
+            color: white;
+            margin: 0px 20px;
+            padding: 0px 10px;
+            cursor: pointer;
+            font-size: 22px;
+            line-height: 60px;
+        }
+
+        .#{$file-prefix}-nav-item-active {
+            border-bottom: 5px solid #00FFFF;
+            color: #00FFFF;
+        }
+    }
+}

@@ -94,7 +94,7 @@ export default function RequestList() {
             align: 'center'
         },
     ];
-    const getCaseList = useCallback(async () => {
+    const getRequestList = useCallback(async () => {
         setLoading(true)
         const res = await get_request_list_api()
         if (httpIsSuccess(res.code)) {
@@ -117,8 +117,8 @@ export default function RequestList() {
         }
     };
     useEffect(() => {
-        getCaseList()
-    }, [getCaseList])
+        getRequestList()
+    }, [getRequestList])
     return (
         <div className={`${stylePrefix}-layout`} >
             <Table

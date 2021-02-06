@@ -1,0 +1,7 @@
+$file-prefix: 'page-main';
+
+.#{$file-prefix}-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}

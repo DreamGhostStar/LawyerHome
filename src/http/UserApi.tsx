@@ -62,9 +62,13 @@ interface ISendVerifyNumber {
     phoneNumber: string;
 }
 
+interface ISendImageVerify {
+    platform: number;
+}
+
 // 获取图片验证码
-export const get_verify_code_api = async () => {
-    return await Http.request(`${backIP}/public/verificationCode/image`, {}, 'GET')
+export const get_verify_code_api = async (data: ISendImageVerify) => {
+    return await Http.request(`${backIP}/public/verificationCode/image`, data, 'GET')
 }
 
 // 管理员手机号密码登录
@@ -125,4 +129,9 @@ export const search_user_list_api = async (data: ISearchUser) => {
 // 重新发送手机验证码
 export const send_phone_verify_number_api = async (data: ISendVerifyNumber) => {
     return await Http.request(`${backIP}/public/verificationCode/note`, data, 'POST', getHeaders())
+}
+
+// 退出登录
+export const exit_api = async () => {
+    return await Http.request(`${backIP}/user/exit`, {}, 'POST', getHeaders())
 }

@@ -6,6 +6,13 @@ $file-prefix: 'page-request';
     overflow-y: scroll;
 
     .#{$file-prefix}-main {
+        .#{$file-prefix}-text {
+            padding: 20px;
+            text-indent: 20px;
+            width: 1000px;
+            margin: 40px auto;
+            background-color: #fff;
+        }
 
         .#{$file-prefix}-button-layout {
             display: inline-block;

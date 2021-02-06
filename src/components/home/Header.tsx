@@ -3,7 +3,7 @@ import 'styles/home/header.scss'
 import store from 'redux/store'
 import { getToken, removeToken, successToast, errorToast, httpIsSuccess } from 'components/common/utils'
 import { useHistory } from 'react-router-dom'
-import { get_basic_user_info_api } from 'http/UserApi'
+import { exit_api, get_basic_user_info_api } from 'http/UserApi'
 import { IconFont } from 'components/common/config'
 import { Image } from 'antd'
 
@@ -27,9 +27,6 @@ export default function Header({ transform_user, title }: HeaderConfig) {
     const history = useHistory()
     const [avatar, setAvatar] = useState(store.getState().user?.avatar)
     const [isMouse, setIsMouse] = useState(false)
-    const handleError = (message: string) => {
-        // errorToast()
-    }
     const getBasicUser = useCallback(async () => {
         const token: string = getToken()
         if (token && !store.getState().user) {
@@ -53,10 +50,15 @@ export default function Header({ transform_user, title }: HeaderConfig) {
             history.push('/login')
         }
     }, [history, transform_user])
-    const exitLogin = () => {
-        removeToken()
-        successToast('退出登录成功')
-        history.push('/login')
+    const exitLogin = async () => {
+        const res = await exit_api();
+        if (httpIsSuccess(res.code)) {
+            removeToken()
+            successToast('退出登录成功')
+            history.push('/login')
+        } else {
+            errorToast(res.message)
+        }
     }
     const gotoHome = () => {
         history.push('/home')

@@ -5,7 +5,7 @@ const Loadable = (props: any) =>
   L({
     loading: Loading,
     delay: 300,
-    timeout: 10000,
+    timeout: 30000,
     ...props,
   });
 

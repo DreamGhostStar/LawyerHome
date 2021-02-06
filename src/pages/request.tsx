@@ -13,8 +13,9 @@ import 'styles/pages/request.scss'
 const stylePrefix = 'page-request'
 interface requestDetailConfig {
     caseID: number;
-    type: string;
-    url: string;
+    type?: string;
+    value: string;
+    isUrl: boolean;
 }
 interface paramsConfig {
     id: string;
@@ -29,11 +30,11 @@ export default function Request() {
     const [requestDetail, setRequestDetail] = useState<requestDetailConfig | null>(null)
     const getRequestDetail = async () => {
         setLoading(true)
-        console.log(parseInt(requestID))
         const res = await get_request_detail_api({
             requestID: parseInt(requestID)
         })
         if (httpIsSuccess(res.code)) {
+            console.log(res.data)
             setRequestDetail(res.data)
         } else {
             errorToast(res.message)
@@ -65,10 +66,14 @@ export default function Request() {
                 <div className={`${stylePrefix}-main`}>
                     {
                         requestDetail &&
-                        <FileViewer
-                            fileType={requestDetail.type}
-                            filePath={requestDetail.url}
-                        />
+                            requestDetail.isUrl
+                            ? <FileViewer
+                                fileType={requestDetail.type}
+                                filePath={requestDetail.value}
+                            />
+                            : <div className={`${stylePrefix}-text`} >
+                                {requestDetail?.value}
+                            </div>
                     }
                     <div className={`${stylePrefix}-button-layout`}>
                         <Button

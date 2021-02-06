@@ -33,6 +33,10 @@ const requestPage = Loadable({
     loader: () => import('./pages/request'),
 });
 
+const mainPage = Loadable({
+    loader: () => import('./pages/main'),
+});
+
 // 前端路由
 export default class Entry extends Component {
     render() {
@@ -40,6 +44,7 @@ export default class Entry extends Component {
             <Provider store={store}>
                 <HashRouter>
                     <Switch>
+                        {/* <Route path='/' component={mainPage} /> */}
                         <Route path='/home' component={homePage} />
                         <Route path='/salary/:id' component={salaryPage} />
                         <Route path='/case' component={editCasePage} exact/>
