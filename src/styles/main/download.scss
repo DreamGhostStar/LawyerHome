@@ -1,0 +1,91 @@
+$file-prefix: 'main-download';
+
+.#{$file-prefix}-layout {
+    background-color: #eee;
+    height: 100%;
+
+    .#{$file-prefix}-main {
+        display: flex;
+        justify-content: space-between;
+        width: 1200px;
+        margin: 0 auto;
+        padding-top: 20px;
+
+        .#{$file-prefix}-main-layout {
+            margin-top: 100px;
+            width: 800px;
+
+            .#{$file-prefix}-introduce {
+                display: flex;
+                justify-content: flex-start;
+
+                .#{$file-prefix}-logo {
+                    width: 300px;
+                    height: 200px;
+                    margin-right: 100px;
+                }
+
+                .#{$file-prefix}-word-layout {
+                    padding: 10px 0px 10px 20px;
+                    border-left: 5px solid #24ebcd;
+
+                    p {
+                        margin: 20px;
+                    }
+                }
+            }
+
+            .#{$file-prefix}-button-layout {
+                display: flex;
+                justify-content: flex-start;
+                width: 1200px;
+                margin-top: 100px;
+
+                .#{$file-prefix}-button {
+                    width: 300px;
+                    margin-right: 40px;
+                    height: 90px;
+                    border-radius: 45px;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                }
+
+                .#{$file-prefix}-android-button {
+                    background: linear-gradient(90deg, #01d4d6, #24ebcd);
+                    font-size: 24px;
+                    color: #fff;
+                }
+
+                .#{$file-prefix}-ios-button {
+                    border: 2px solid #a19fa6;
+                    font-size: 24px;
+                    color: #a19fa6;
+                }
+            }
+        }
+
+        .#{$file-prefix}-image-layout {
+            position: relative;
+
+            .#{$file-prefix}-show-img {
+                position: absolute;
+                width: 229px;
+                height: 450px;
+                top: 46px;
+                left: 61px;
+            }
+
+            .#{$file-prefix}-model {
+                width: 350px;
+                height: 550px;
+            }
+        }
+    }
+}
+
+.#{$file-prefix}-hide {
+    display: none;
+}

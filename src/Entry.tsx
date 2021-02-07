@@ -44,7 +44,7 @@ export default class Entry extends Component {
             <Provider store={store}>
                 <HashRouter>
                     <Switch>
-                        {/* <Route path='/' component={mainPage} /> */}
+                        <Route path='/' component={mainPage} exact />
                         <Route path='/home' component={homePage} />
                         <Route path='/salary/:id' component={salaryPage} />
                         <Route path='/case' component={editCasePage} exact/>

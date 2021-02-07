@@ -1,0 +1,11 @@
+$file-prefix: 'main-concat';
+
+.#{$file-prefix}-layout {
+    width: 1200px;
+    margin: 0 auto;
+
+    .#{$file-prefix}-title {
+        font-weight: bold;
+        font-size: 40px;
+    }
+}

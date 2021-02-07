@@ -6,9 +6,10 @@ $file-prefix: 'main-header';
     height: 60px;
     display: flex;
     justify-content: space-between;
+    z-index: 2;
 
     .#{$file-prefix}-header-title {
-        color: white;
+        color: #fff;
         user-select: none;
         font-size: 40px;
         margin: 0px;

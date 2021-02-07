@@ -1,6 +1,36 @@
 $file-prefix: 'main-introduce';
+$imageHeight: 380px;
 
 .#{$file-prefix}-layout {
-    height: 600px;
-    flex: 1;
+    margin-top: 40px;
+    position: relative;
+
+    .#{$file-prefix}-main {
+        display: flex;
+        justify-content: space-between;
+        width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+
+        .#{$file-prefix}-image {
+            width: $imageHeight / 8 * 5;
+            height: $imageHeight;
+            transition-duration: .5s;
+        }
+
+        .#{$file-prefix}-image-big {
+            transform: scale(1.2) translateY($imageHeight * 0.1);
+        }
+    }
+
+    .#{$file-prefix}-button {
+        position: absolute;
+        bottom: 70px;
+        left: 50%;
+        margin-left: -28px;
+    }
+}
+
+.#{$file-prefix}-hide {
+    display: none;
 }

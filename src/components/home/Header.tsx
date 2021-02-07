@@ -60,8 +60,13 @@ export default function Header({ transform_user, title }: HeaderConfig) {
             errorToast(res.message)
         }
     }
+    // 返回后台
     const gotoHome = () => {
         history.push('/home')
+    }
+    // 去首页
+    const gotoMain = () => {
+        history.push('/')
     }
 
     useEffect(() => {
@@ -99,6 +104,12 @@ export default function Header({ transform_user, title }: HeaderConfig) {
                         display: isMouse ? 'block' : 'none'
                     }}
                 >
+                    <p
+                        className={`${stylePrefix}-user-operation-word`}
+                        onClick={gotoMain}
+                    >
+                        返回首页
+                    </p>
                     <p
                         className={`${stylePrefix}-user-operation-word`}
                         onClick={exitLogin}

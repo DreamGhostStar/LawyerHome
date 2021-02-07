@@ -4,4 +4,10 @@ $file-prefix: 'page-main';
     display: flex;
     flex-direction: column;
     height: 100%;
+    overflow: hidden;
+
+    .#{$file-prefix}-main {
+        transition-duration: 1s;
+        flex: 1;
+    }
 }
