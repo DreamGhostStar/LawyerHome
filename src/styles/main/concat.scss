@@ -1,11 +1,40 @@
 $file-prefix: 'main-concat';
 
 .#{$file-prefix}-layout {
-    width: 1200px;
-    margin: 0 auto;
+    background-color: #eee;
 
-    .#{$file-prefix}-title {
-        font-weight: bold;
-        font-size: 40px;
+    .#{$file-prefix}-main {
+        width: 1200px;
+        margin: 0 auto;
+
+        .#{$file-prefix}-title {
+            font-weight: bold;
+            font-size: 40px;
+        }
+
+        .#{$file-prefix}-map-layout {
+            display: flex;
+            justify-content: space-between;
+
+            .#{$file-prefix}-detail {
+                font-size: 20px;
+                margin-top: 150px;
+
+                .#{$file-prefix}-map-detail {
+                    display: flex;
+                    justify-content: flex-start;
+                    margin-top: 20px;
+
+                    .#{$file-prefix}-detail-title {
+                        font-weight: bold;
+                    }
+                }
+            }
+
+            .#{$file-prefix}-map {
+                width: 700px;
+                height: 500px;
+            }
+        }
     }
 }

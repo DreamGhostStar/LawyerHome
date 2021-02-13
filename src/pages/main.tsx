@@ -49,8 +49,8 @@ export default function Main() {
                 className={`${stylePrefix}-main`}
             >
                 <Download height={height} />
-                <Introduce height={height} />
-                <Concat height={height} />
+                <Introduce height={height} scrollIndex={scrollIndex} />
+                <Concat height={height} scrollIndex={scrollIndex} />
             </div>
         </div>
     )

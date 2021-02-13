@@ -7,6 +7,7 @@ import classnames from 'classnames'
 import personImg from 'images/person.png'
 import { Button } from 'antd'
 import { useHistory } from 'react-router-dom'
+import LazyImg from 'components/common/LazyImg'
 const stylePrefix = 'main-introduce'
 const images = [
     cardImg,
@@ -15,9 +16,10 @@ const images = [
 ]
 interface IntroduceProps {
     height: number;
+    scrollIndex: number;
 }
 
-export default function Introduce({ height }: IntroduceProps) {
+export default function Introduce({ height, scrollIndex }: IntroduceProps) {
     const history = useHistory()
     const [moveIndex, setMoveIndex] = useState(1) // 图片触摸索引
     const gotoBack = () => {
@@ -33,8 +35,10 @@ export default function Introduce({ height }: IntroduceProps) {
             <div className={`${stylePrefix}-main`}>
                 {
                     images.map((image, index) => {
-                        return <img
+                        return <LazyImg
                             key={index}
+                            scrollIndex={scrollIndex}
+                            index={1}
                             src={image}
                             className={classnames(`${stylePrefix}-image`, {
                                 [`${stylePrefix}-image-big`]: moveIndex === index
